@@ -1,139 +1,364 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026新年快乐 | 跨年倒计时</title>
+    <title> i科科技</title>
     <style>
-        * {margin: 0;padding: 0;box-sizing: border-box;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
         body {
-            min-height: 100vh;
+            background-color: #000;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1a0038, #000a3d, #140047);
-            background-size: 200% 200%;
-            animation: bgMove 10s ease infinite;
-            font-family: '微软雅黑', sans-serif;
-            overflow: hidden;
-            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
         }
-        @keyframes bgMove {
-            0% {background-position: 0% 0%;}
-            50% {background-position: 100% 100%;}
-            100% {background-position: 0% 0%;}
-        }
-        .title {font-size: 2.2rem;margin-bottom: 2rem;text-shadow: 0 0 20px #9933ff;}
-        .countdown {
-            display: flex;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .time-box {
-            text-align: center;
-            padding: 1rem 1.5rem;
-            background: rgba(255,255,255,0.05);
+        /* 顶部导航容器（核心优化：弹性布局+自动换行+最小高度） */
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90px; /* 替换固定高度为最小高度 */
+            height: auto; /* 高度自适应内容 */
+            background-color: #1a1a1a;
+            border: 2px solid #ff4d4d;
             border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(153, 51, 255, 0.3);
+            display: flex;
+            flex-wrap: wrap; /* 开启自动换行，解决小屏重叠 */
+            align-items: center;
+            justify-content: flex-start;
+            padding: 15px 25px; /* 上下内边距，适配换行 */
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+            gap: 12px; /* 按钮之间的间距，替代margin-right，更适配换行 */
         }
-        .num {
-            font-size: 3.5rem;
+        /* 分类按钮容器（分离右侧功能按钮，避免换行干扰） */
+        .category-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        /* 右侧功能按钮容器（固定在导航栏右侧，不随分类按钮换行） */
+        .func-group {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        /* 分类标签按钮（优化尺寸+自适应） */
+        .category-btn {
+            min-width: 70px; /* 最小宽度，保证按钮不被挤压过窄 */
+            width: fit-content; /* 宽度自适应文字 */
+            padding: 0 15px; /* 左右内边距，替代固定宽度 */
+            height: 45px;
+            background-color: #1a1a1a;
+            border: 2px solid #ff4d4d;
+            border-radius: 8px;
+            color: #ff4d4d;
+            font-size: 17px;
             font-weight: bold;
-            color: #f0e6ff;
-            text-shadow: 0 0 15px #c98fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
         }
-        .text {font-size: 0.9rem;color: #c7b3e8;margin-top: 0.5rem;}
-        .year {font-size: 4rem;font-weight: bold;color: #fff;text-shadow: 0 0 30px #9933ff;margin-top: 1rem;}
-        .tip {margin-top: 2rem;color: #b8a4e0;font-size: 1rem;}
-        /* 烟花特效 */
-        #fireworks {position: fixed;top: 0;left: 0;width: 100%;height: 100%;pointer-events: none;z-index: -1;}
-        @media (max-width:768px) {
-            .title {font-size: 1.8rem;}
-            .countdown {gap: 0.8rem;}
-            .num {font-size: 2.5rem;}
-            .time-box {padding: 0.8rem 1rem;}
-            .year {font-size: 3rem;}
+        .category-btn:hover {
+            background-color: #ff4d4d;
+            color: #000;
+            transform: scale(1.05);
+        }
+        .category-btn.active {
+            background-color: #ff4d4d;
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
+        /* 右侧圆形按钮（优化位置） */
+        .circle-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #ff4d4d;
+            border-radius: 50%;
+            background-color: #1a1a1a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ff4d4d;
+            transition: all 0.3s ease;
+        }
+        .circle-btn:hover {
+            background-color: #ff4d4d;
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
+        /* 三条平行线按钮（优化位置） */
+        .line-btn {
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .line {
+            width: 32px;
+            height: 3px;
+            background-color: #ff4d4d;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .line-btn:hover .line {
+            background-color: #fff;
+            width: 28px;
+        }
+        /* 内容区域容器 */
+        .content-container {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 500px;
+            background-color: #1a1a1a;
+            border: 2px solid #ff4d4d;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+        }
+        /* 内容标题 */
+        .content-title {
+            font-size: 26px;
+            color: #ff4d4d;
+            font-weight: bold;
+            border-bottom: 2px solid #ff4d4d;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        /* 页面内容区域 */
+        .page-content {
+            display: none;
+            font-size: 18px;
+            color: #fff;
+            line-height: 1.8;
+        }
+        .page-content.active {
+            display: block;
+        }
+        /* 响应式适配（针对极小屏优化） */
+        @media (max-width: 600px) {
+            /* 小屏时右侧功能按钮移到导航栏下方，避免遮挡分类按钮 */
+            .func-group {
+                position: static;
+                transform: none;
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+            .nav-container {
+                padding-bottom: 20px;
+            }
+            .category-btn {
+                font-size: 15px;
+                height: 40px;
+                padding: 0 12px;
+            }
+            .circle-btn, .line-btn {
+                width: 40px;
+                height: 40px;
+            }
+            .line {
+                width: 28px;
+            }
+        }
+        @media (max-width: 480px) {
+            .content-title {
+                font-size: 22px;
+            }
+            .page-content {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <canvas id="fireworks"></canvas>
-    <div class="title">2026 甲辰龙年 · 跨年倒计时</div>
-    <div class="countdown">
-        <div class="time-box"><div class="num" id="days">00</div><div class="text">天</div></div>
-        <div class="time-box"><div class="num" id="hours">00</div><div class="text">时</div></div>
-        <div class="time-box"><div class="num" id="minutes">00</div><div class="text">分</div></div>
-        <div class="time-box"><div class="num" id="seconds">00</div><div class="text">秒</div></div>
+    <!-- 顶部导航栏（优化布局，分离分类与功能按钮） -->
+    <div class="nav-container">
+        <!-- 分类按钮组 -->
+        <div class="category-group">
+            <button class="category-btn active" data-page="all">全部</button>
+            <button class="category-btn" data-page="tool">工具</button>
+            <button class="category-btn" data-page="video">影视</button>
+            <button class="category-btn" data-page="game">游戏</button>
+            <button class="category-btn" data-page="chat">计时</button>
+        </div>
+        <!-- 右侧功能按钮组（固定位置，不随分类换行） -->
+        <div class="func-group">
+            <div class="circle-btn" data-page="circle">品</div>
+            <div class="line-btn" data-page="menu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
     </div>
-    <div class="year">2026</div>
-    <div class="tip">所求皆如愿，所行皆坦途 ✨</div>
+
+    <!-- 内容区域 -->
+    <div class="content-container">
+        <div class="content-title">热门</div>
+        <div class="page-content active" id="all-page">
+            <p> 【Windows免费激活码（家庭、专业、企业】： 
+教程：https://mp.weixin.qq.com/s/R3Pcxo4JU3AM17F5w4rzHw 
+资源：KMS.CX </p>
+            <p>由于刚建站，在慢慢上传，请待更新……</p>
+        </div>
+        <div class="page-content" id="tool-page">
+            <h3>工具分类</h3>
+            <p>工具分类页面内容：可添加实用工具入口（如计时、换算、查询等），也可嵌入之前制作的计时网页代码</p>
+        </div>
+        <div class="page-content" id="video-page">
+            <h3>影视分类</h3>
+            <p>影视分类页面内容：可添加影视列表、播放链接、推荐内容等</p>
+        </div>
+        <div class="page-content" id="game-page">
+            <h3>游戏分类</h3>
+      <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>怀旧游戏网站推荐-公众号文章</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.8;color:#333;background:#fff;padding:10px 15px;}
+h1{font-size:22px;text-align:center;margin:20px 0 30px 0;font-weight:bold;line-height:1.5;color:#222;}
+h2{font-size:18px;margin:25px 0 15px 0;padding-left:8px;border-left:3px solid #e63946;font-weight:bold;color:#333;}
+h3{font-size:17px;margin:20px 0 12px 0;font-weight:bold;color:#333;}
+p{margin:12px 0;text-indent:0;}
+ul{margin:10px 0 10px 20px;}
+li{margin:8px 0;list-style:none;position:relative;padding-left:18px;}
+li:before{content:"▸";position:absolute;left:0;color:#e63946;}
+strong{color:#e63946;font-weight:bold;}
+.tips{background:#f8f8f8;padding:12px 15px;border-radius:8px;margin:15px 0;}
+</style>
+</head>
+<body>
+<!-- 标题版本一【爆款温情，最推荐，首选】 -->
+<h1>收藏！8个免费怀旧游戏网站，浏览器即开即玩，重温童年的快乐时光</h1>
+
+<p>小时候最快乐的事，莫过于守着红白机闯关，挤在游戏厅里搓摇杆，抱着掌机沉浸在像素的世界里。那些经典的BGM一响，瞬间就能勾起满满的青春回忆。</p>
+
+<p>不用下载、不用安装、不用找资源，今天整理了全网最好用的<strong>怀旧游戏网站合集</strong>，覆盖FC红白机、街机、DOS经典、GBA/掌机全平台，手机、平板、电脑浏览器直接点开就能玩，无广告无套路，纯纯的童年复刻，一秒找回儿时的快乐。</p>
+
+<h2>这些游戏，承包了我们的整个童年</h2>
+<p>一代人的童年，总有几款刻进DNA的经典游戏，没有华丽的画质，却有最纯粹的快乐，每一款都是无法复刻的经典。</p>
+<ul>
+<li>FC红白机｜魂斗罗、超级马里奥、坦克大战、冒险岛、热血系列、松鼠大战，简单的像素画面，藏着最热血的闯关乐趣。</li>
+<li>街机厅神作｜拳皇97、合金弹头、三国战纪、恐龙快打、西游记释厄传，摇杆搓出的连招，是年少时最耀眼的高光时刻。</li>
+<li>DOS经典RPG｜仙剑奇侠传、金庸群侠传、大富翁4、三国志，一字一句的剧情，一招一式的打怪，是中式游戏的初代浪漫。</li>
+<li>掌机/GBA｜口袋妖怪、塞尔达传说、火影忍者、星之卡比，小小的屏幕里，装着大大的冒险世界，是放学路上的专属欢喜。</li>
+</ul>
+
+<h2>国内优选｜中文友好+完美适配，闭眼冲就对了</h2>
+<p>全部都是<strong>中文界面、无繁乱广告、手机/平板适配极佳</strong>，不用懂英文，不用调复杂设置，点开即玩，体验感拉满，排名不分先后，每一个都值得收藏！</p>
+<ul>
+<li>小霸王其乐无穷 <strong>yikm.net</strong>：主打FC红白机+街机游戏，经典款全覆盖，支持存档、读档、金手指，还能双人联机，界面干净简洁，手机横屏玩手感超棒。</li>
+<li>重返8090 <strong>return8090.com</strong>：怀旧游戏全能宝库，FC、街机、GBA、NDS、MD全平台收录，分类清晰，模拟器稳定不闪退，冷门款也能找到。</li>
+<li>在线DOS游戏 <strong>dos.zczc.cz</strong>：近2000款DOS老游戏合集，仙剑、金庸群侠传等封神RPG齐全，浏览器直接运行，完美还原当年的游玩体验。</li>
+<li>畅玩空间：街机+家用机全覆盖，亮点是联机功能，可远程和朋友一起玩，还有微信小程序版本，不用记网址，点开即玩。</li>
+<li>famicn <strong>famicn.com</strong>：小众宝藏站，收录国产掌机、学习机绝版游戏，适合资深怀旧党深挖童年小众回忆。</li>
+</ul>
+
+<h2>国外精选｜资源超多+无广告，硬核玩家首选</h2>
+<p>资源量超大，无任何弹窗广告，运行流畅，唯一小缺点是英文界面，但操作简单，看懂游戏名称就能玩，适配性完全没问题，满足你的所有怀旧需求。</p>
+<ul>
+<li>RetroGames <strong>retrogames.cc</strong>：国外老牌复古大站，数千款游戏覆盖多平台，分类细致，支持手柄连接和存档，无广告沉浸式游玩首选。</li>
+<li>We Play Retro <strong>weplayretro.games</strong>：精选经典佳作，无冗余内容，手机端适配优化极佳，按键布局合理，点开就能上手。</li>
+<li>RetroGameZ <strong>retrogamez.online</strong>：主打现代优化，支持自定义按键、调节游戏速度，贴合当下操作习惯，硬核玩家的优选。</li>
+</ul>
+
+<h2>超实用游玩小贴士｜新手必看</h2>
+<div class="tips">
+<ul>
+<li>设备适配：平板/iPad玩开<strong>横屏+全屏模式</strong>，视野开阔；手机玩关闭悬浮窗，体验感翻倍。</li>
+<li>功能妙用：大部分网站支持存档/读档+金手指，卡关不用硬肝，轻松通关更快乐。</li>
+<li>手感升级：可连接蓝牙手柄，瞬间找回搓红白机、街机摇杆的童年手感。</li>
+<li>温馨提醒：游戏仅用于个人怀旧娱乐，尊重游戏版权，切勿传播游戏资源，让快乐延续。</li>
+</ul>
+</div>
+
+<p style="margin-top:25px;text-align:center;">你童年最爱的那款游戏是什么？评论区聊聊吧～</p>
+
+<!-- 标题版本二【简洁干货，适合干货类公众号，替换上方h1即可】 -->
+<!-- <h1>8个免费怀旧游戏网站合集｜浏览器即开即玩，FC/街机/DOS全收录</h1> -->
+
+<!-- 标题版本三【短句吸睛，年轻化账号专属，替换上方h1即可】 -->
+<!-- <h1>怀旧党狂喜！8个宝藏网站，免费玩遍童年所有经典游戏</h1> -->
+
+</body>
+</html>
+        </div>
+        <div class="page-content" id="chat-page">
+            <h3>计时分类</h3>
+            <p>计时分类页面内容：可嵌入之前制作的计时/倒计时网页代码，实现点击直接使用计时功能</p>
+        </div>
+        <div class="page-content" id="circle-page">
+            <h3>圆形按钮页面</h3>
+            <p>点击右侧圆形按钮跳转到该页面，可自定义功能（如个人中心、设置、收藏等）</p>
+        </div>
+        <div class="page-content" id="menu-page">
+            <h3>菜单按钮页面</h3>
+            <p>点击三条平行线按钮跳转到该页面，可添加导航菜单、更多功能入口、关于页面等</p>
+        </div>
+    </div>
 
     <script>
-        // 目标时间：2026年1月1日 00:00:00 元旦跨年
-        const targetDate = new Date('2026-01-01T00:00:00').getTime();
-        
-        // 倒计时核心
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
-            if (diff <= 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                document.querySelector('.title').textContent = '新年快乐 2026 🎉';
-                return;
-            }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        // 获取所有可点击元素
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const circleBtn = document.querySelector('.circle-btn');
+        const lineBtn = document.querySelector('.line-btn');
+        const pageContents = document.querySelectorAll('.page-content');
+        const contentTitle = document.querySelector('.content-title');
 
-        // 烟花特效
-        const canvas = document.getElementById('fireworks');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let particles = [];
-        function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-        window.addEventListener('resize', resizeCanvas);
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x;this.y = y;this.speed = Math.random() * 3 + 1;this.angle = Math.random() * Math.PI * 2;
-                this.gravity = 0.02;this.vx = Math.cos(this.angle) * this.speed;this.vy = Math.sin(this.angle) * this.speed;
-                this.alpha = 1;this.decay = Math.random() * 0.01 + 0.005;this.color = color;
-            }
-            update() {this.vy += this.gravity;this.x += this.vx;this.y += this.vy;this.alpha -= this.decay;}
-            draw() {
-                ctx.save();ctx.globalAlpha = this.alpha;ctx.beginPath();ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;ctx.fill();ctx.restore();
-            }
+        // 页面切换函数
+        function switchPage(pageId) {
+            pageContents.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(`${pageId}-page`);
+            if (targetPage) targetPage.classList.add('active');
+            
+            const titleMap = {
+                'all': '全部', 'tool': '工具', 'video': '影视',
+                'game': '游戏', 'chat': '计时', 'circle': '圆形按钮页',
+                'menu': '菜单按钮页'
+            };
+            contentTitle.textContent = titleMap[pageId] || '全部';
+
+            categoryBtns.forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.category-btn[data-page="${pageId}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
         }
-        function createFirework() {
-            const x = Math.random() * canvas.width;const y = Math.random() * canvas.height / 2 + canvas.height / 4;
-            const colors = ['#ff66cc','#9933ff','#66ccff','#ffcc66','#ffffff','#cc66ff'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            for(let i=0;i<100;i++) particles.push(new Particle(x, y, color));
-        }
-        function animate() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            particles = particles.filter(p => p.alpha > 0);
-            particles.forEach(p => {p.update();p.draw();});
-            if(Math.random() < 0.03) createFirework();
-            requestAnimationFrame(animate);
-        }
-        animate();
+
+        // 分类按钮点击事件
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => switchPage(btn.getAttribute('data-page')));
+        });
+
+        // 功能按钮点击事件
+        circleBtn.addEventListener('click', () => switchPage('circle'));
+        lineBtn.addEventListener('click', () => switchPage('menu'));
     </script>
 </body>
 </html>
