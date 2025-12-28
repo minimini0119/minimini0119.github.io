@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> i科科技</title>
+    <title>分类导航页面</title>
     <style>
         * {
             margin: 0;
@@ -20,32 +20,33 @@
             padding: 20px;
             min-height: 100vh;
         }
-        /* 顶部导航容器（核心优化：弹性布局+自动换行+最小高度） */
+        /* 顶部导航容器 核心不重叠自适应 */
         .nav-container {
             width: 100%;
             max-width: 1200px;
-            min-height: 90px; /* 替换固定高度为最小高度 */
-            height: auto; /* 高度自适应内容 */
+            min-height: 90px;
+            height: auto;
             background-color: #1a1a1a;
             border: 2px solid #ff4d4d;
             border-radius: 12px;
             display: flex;
-            flex-wrap: wrap; /* 开启自动换行，解决小屏重叠 */
+            flex-wrap: wrap;
             align-items: center;
             justify-content: flex-start;
-            padding: 15px 25px; /* 上下内边距，适配换行 */
+            padding: 15px 25px;
             margin-bottom: 25px;
             position: relative;
             box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
-            gap: 12px; /* 按钮之间的间距，替代margin-right，更适配换行 */
+            gap: 12px;
+            z-index: 99;
         }
-        /* 分类按钮容器（分离右侧功能按钮，避免换行干扰） */
+        /* 分类按钮容器 */
         .category-group {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
         }
-        /* 右侧功能按钮容器（固定在导航栏右侧，不随分类按钮换行） */
+        /* 右侧功能按钮容器 */
         .func-group {
             position: absolute;
             right: 25px;
@@ -55,11 +56,11 @@
             align-items: center;
             gap: 15px;
         }
-        /* 分类标签按钮（优化尺寸+自适应） */
+        /* 分类标签按钮 */
         .category-btn {
-            min-width: 70px; /* 最小宽度，保证按钮不被挤压过窄 */
-            width: fit-content; /* 宽度自适应文字 */
-            padding: 0 15px; /* 左右内边距，替代固定宽度 */
+            min-width: 70px;
+            width: fit-content;
+            padding: 0 15px;
             height: 45px;
             background-color: #1a1a1a;
             border: 2px solid #ff4d4d;
@@ -84,7 +85,7 @@
             color: #000;
             box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
         }
-        /* 右侧圆形按钮（优化位置） */
+        /* 右侧圆形按钮 */
         .circle-btn {
             width: 45px;
             height: 45px;
@@ -105,7 +106,7 @@
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
         }
-        /* 三条平行线按钮（优化位置） */
+        /* 三条平行线按钮 */
         .line-btn {
             width: 45px;
             height: 45px;
@@ -138,6 +139,8 @@
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+            position: relative;
+            z-index: 10;
         }
         /* 内容标题 */
         .content-title {
@@ -155,57 +158,107 @@
             font-size: 18px;
             color: #fff;
             line-height: 1.8;
+            width: 100%;
+            height: 100%;
         }
         .page-content.active {
             display: block;
         }
-        /* 响应式适配（针对极小屏优化） */
+        /* ===== 计时/倒计时双功能样式 ===== */
+        .timer-wrap{width:100%;padding:10px 0;}
+        .timer-tab{display:flex;justify-content:center;gap:15px;margin-bottom:25px;}
+        .timer-tab-btn{padding:10px 22px;border:2px solid #ff4d4d;background:#1a1a1a;color:#ff4d4d;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;transition:0.3s;}
+        .timer-tab-btn.active{background:#ff4d4d;color:#000;box-shadow:0 0 10px #ff4d4d;}
+        .timer-content{display:none;width:100%;}
+        .timer-content.show{display:block;}
+        .stopwatch-box, .countdown-box{text-align:center;padding:20px;background:#222;border-radius:10px;border:1px solid #ff4d4d;margin:0 auto;max-width:500px;}
+        .timer-num{font-size:45px;color:#fff;margin:20px 0;text-shadow:0 0 10px #ff4d4d;letter-spacing:2px;}
+        .timer-btn-group{display:flex;gap:12px;justify-content:center;margin-top:25px;flex-wrap:wrap;}
+        .timer-btn{padding:10px 20px;border:none;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer;color:#fff;min-width:90px;}
+        .btn-start{background:#27ae60;}
+        .btn-pause{background:#f39c12;}
+        .btn-reset{background:#e74c3c;}
+        .countdown-set-box{display:flex;gap:10px;justify-content:center;margin-bottom:20px;}
+        .countdown-set-box input{width:70px;padding:10px;background:#1a1a1a;border:1px solid #ff4d4d;color:#fff;text-align:center;border-radius:6px;font-size:16px;}
+        /* ===== 2026页面专属美化【核心修改】===== */
+        #fireworks {position: fixed;top: 0;left: 0;width: 100%;height: 100%;pointer-events: none;z-index: 1;}
+        #2026-page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+        /* 2026倒计时整体加框+美化 */
+        .countdown {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+            padding: 25px 30px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid #ff4d4d;
+            border-radius: 18px;
+            box-shadow: 0 0 20px rgba(255,77,77,0.5), 0 0 30px rgba(255,77,77,0.3) inset;
+            backdrop-filter: blur(8px);
+        }
+        .time-box {
+            text-align: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(153, 51, 255, 0.3);
+        }
+        .num {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #f0e6ff;
+            text-shadow: 0 0 15px #c98fff;
+        }
+        .text {font-size: 0.9rem;color: #c7b3e8;margin-top: 0.5rem;}
+        .title {font-size: 2.2rem;margin-bottom: 2rem;text-shadow: 0 0 20px #9933ff;}
+        .year {font-size: 4rem;font-weight: bold;color: #fff;text-shadow: 0 0 30px #9933ff;margin-top: 1rem;}
+        .tip {margin-top: 2rem;color: #b8a4e0;font-size: 1rem;}
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .title {font-size: 1.8rem;}
+            .countdown {gap: 0.8rem;padding: 20px 15px;}
+            .num {font-size: 2.5rem;}
+            .time-box {padding: 0.8rem 1rem;}
+            .year {font-size: 3rem;}
+        }
         @media (max-width: 600px) {
-            /* 小屏时右侧功能按钮移到导航栏下方，避免遮挡分类按钮 */
-            .func-group {
-                position: static;
-                transform: none;
-                margin-top: 10px;
-                align-self: flex-end;
-            }
-            .nav-container {
-                padding-bottom: 20px;
-            }
-            .category-btn {
-                font-size: 15px;
-                height: 40px;
-                padding: 0 12px;
-            }
-            .circle-btn, .line-btn {
-                width: 40px;
-                height: 40px;
-            }
-            .line {
-                width: 28px;
-            }
+            .func-group {position: static;transform: none;margin-top:10px;align-self:flex-end;}
+            .nav-container {padding-bottom:20px;}
+            .category-btn {font-size:15px;height:40px;padding:0 12px;}
+            .circle-btn, .line-btn {width:40px;height:40px;}
+            .line {width:28px;}
+            .content-title {font-size:22px;}
+            .timer-num{font-size:30px;}
         }
         @media (max-width: 480px) {
-            .content-title {
-                font-size: 22px;
-            }
-            .page-content {
-                font-size: 16px;
-            }
+            .page-content {font-size:16px;}
+            .timer-tab-btn{padding:8px 16px;font-size:16px;}
+            .countdown {gap: 0.5rem;}
+            .num {font-size: 2rem;}
         }
     </style>
 </head>
 <body>
-    <!-- 顶部导航栏（优化布局，分离分类与功能按钮） -->
+    <!-- 顶部导航栏 -->
     <div class="nav-container">
-        <!-- 分类按钮组 -->
         <div class="category-group">
             <button class="category-btn active" data-page="all">全部</button>
+            <button class="category-btn" data-page="2026">2026</button>
             <button class="category-btn" data-page="tool">工具</button>
             <button class="category-btn" data-page="video">影视</button>
             <button class="category-btn" data-page="game">游戏</button>
             <button class="category-btn" data-page="chat">计时</button>
         </div>
-        <!-- 右侧功能按钮组（固定位置，不随分类换行） -->
         <div class="func-group">
             <div class="circle-btn" data-page="circle">品</div>
             <div class="line-btn" data-page="menu">
@@ -218,26 +271,53 @@
 
     <!-- 内容区域 -->
     <div class="content-container">
-        <div class="content-title">热门</div>
+        <div class="content-title">全部</div>
+        
+        <!-- 全部页面 -->
         <div class="page-content active" id="all-page">
-            <p> 【Windows免费激活码（家庭、专业、企业】： 
+
+      <p> 【Windows免费激活码（家庭、专业、企业】： 
+教程：https://mp.weixin.qq.com/s/R3Pcxo4JU3AM17F5w4rzHw 
+资源：KMS.CX </p>
+            <p>由于刚建站，在慢慢上传，请待更新……</p>
+
+        </div>
+
+        <!-- ===== 2026页面【核心修改：文字完全居中+倒计时加精美框】===== -->
+        <div class="page-content" id="2026-page">
+            <canvas id="fireworks"></canvas>
+            <div class="title">2026 甲辰龙年 · 跨年倒计时</div>
+            <div class="countdown">
+                <div class="time-box"><div class="num" id="days">00</div><div class="text">天</div></div>
+                <div class="time-box"><div class="num" id="hours">00</div><div class="text">时</div></div>
+                <div class="time-box"><div class="num" id="minutes">00</div><div class="text">分</div></div>
+                <div class="time-box"><div class="num" id="seconds">00</div><div class="text">秒</div></div>
+            </div>
+            <div class="year">2026</div>
+            <div class="tip">所求皆如愿，所行皆坦途 ✨</div>
+        </div>
+
+        <!-- 工具页面 -->
+        <div class="page-content" id="tool-page">
+            <h3>工具分类</h3>
+             <p> 【Windows免费激活码（家庭、专业、企业】： 
 教程：https://mp.weixin.qq.com/s/R3Pcxo4JU3AM17F5w4rzHw 
 资源：KMS.CX </p>
             <p>由于刚建站，在慢慢上传，请待更新……</p>
         </div>
-        <div class="page-content" id="tool-page">
-            <h3>工具分类</h3>
-            <p>由于刚建站，在慢慢上传，请待更新……</p>
 
-       
-        </div>
+        <!-- 影视页面 -->
         <div class="page-content" id="video-page">
             <h3>影视分类</h3>
+
             <p>由于刚建站，在慢慢上传，请待更新……</p>
+
         </div>
+
+        <!-- 游戏页面 -->
         <div class="page-content" id="game-page">
             <h3>游戏分类</h3>
-      <!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -258,7 +338,7 @@ strong{color:#e63946;font-weight:bold;}
 </style>
 </head>
 <body>
-<!-- 标题版本一【爆款温情，最推荐，首选】 -->
+<!-- 标题版本一【爆款温情，最推荐，公众号首选】 -->
 <h1>收藏！8个免费怀旧游戏网站，浏览器即开即玩，重温童年的快乐时光</h1>
 
 <p>小时候最快乐的事，莫过于守着红白机闯关，挤在游戏厅里搓摇杆，抱着掌机沉浸在像素的世界里。那些经典的BGM一响，瞬间就能勾起满满的青春回忆。</p>
@@ -304,39 +384,90 @@ strong{color:#e63946;font-weight:bold;}
 
 <p style="margin-top:25px;text-align:center;">你童年最爱的那款游戏是什么？评论区聊聊吧～</p>
 
-</body></body>>        </div>
+<!-- 标题版本二【简洁干货，适合干货类公众号，替换上方h1即可】 -->
+<!-- <h1>8个免费怀旧游戏网站合集｜浏览器即开即玩，FC/街机/DOS全收录</h1> -->
+
+<!-- 标题版本三【短句吸睛，年轻化账号专属，替换上方h1即可】 -->
+<!-- <h1>怀旧党狂喜！8个宝藏网站，免费玩遍童年所有经典游戏</h1> -->
+
+</body>
+</html>
+        </div>
+
+        <!-- 计时页面 正计时+倒计时双功能 -->
         <div class="page-content" id="chat-page">
-            <h3>计时分类</h3>
-            <p>计时分类页面内容：可嵌入之前制作的计时/倒计时网页代码，实现点击直接使用计时功能</p>
-        </div>
+            <h3 style="text-align:center;margin-bottom:15px;">计时工具 | 正计时/倒计时</h3>
+            <div class="timer-wrap">
+                <div class="timer-tab">
+                    <div class="timer-tab-btn active" data-type="stopwatch">正计时</div>
+                    <div class="timer-tab-btn" data-type="countdown">倒计时</div>
+                </div>
+                <!-- 正计时模块 -->
+                <div class="timer-content show" id="stopwatch">
+                    <div class="stopwatch-box">
+                        <div class="timer-num" id="sw_num">00:00:00</div>
+                        <div class="timer-btn-group">
+                            <button class="timer-btn btn-start" id="sw_start">开始</button>
+                            <button class="timer-btn btn-pause" id="sw_pause" style="display:none;">暂停</button>
+                            <button class="timer-btn btn-reset" id="sw_reset">重置</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 倒计时模块 -->
+                <div class="timer-content" id="countdown">
+                    <div class="countdown-box">
+                        <div class="countdown-set-box">
+                            <input type="number" id="cd_h" placeholder="时" min="0" max="23" value="00">
+                            <span style="color:#fff;">:</span>
+                            <input type="number" id="cd_m" placeholder="分" min="0" max="59" value="00">
+                            <span style="color:#fff;">:</span>
+                            <input type="number" id="cd_s" placeholder="秒" min="0" max="59" value="00">
+                        </div>
+                        <div class="timer-num" id="cd_num">00:00:00</div>
+                        <div class="timer-btn-group">
+                            <button class="timer-btn btn-start" id="cd_start">开始</button>
+                            <button class="timer-btn btn-pause" id="cd_pause" style="display:none;">暂停</button>
+                            <button class="timer-btn btn-reset" id="cd_reset">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <!-- 圆形按钮页面 -->
         <div class="page-content" id="circle-page">
-            <h3>圆形按钮页面</h3>
-            <p>点击右侧圆形按钮跳转到该页面，可自定义功能（如个人中心、设置、收藏等）</p>
+            <h3>账户</h3>
+            <p>还没开发^_^</p>
         </div>
+
+        <!-- 菜单按钮页面-->
         <div class="page-content" id="menu-page">
-            <h3>菜单按钮页面</h3>
-            <p>点击三条平行线按钮跳转到该页面，可添加导航菜单、更多功能入口、关于页面等</p>
+            <h3>关于我们</h3>
+            <p>微信公众号：i科科技</p> 
+           <p>微信视频号：i科科技</p>
+            <p> B站：i科科技</p>
+            <p>抖音：i科科技</p>
+            <p>官网：i科科技 </p>
         </div>
     </div>
 
     <script>
-        // 获取所有可点击元素
+        // ===== 页面切换核心功能 =====
         const categoryBtns = document.querySelectorAll('.category-btn');
         const circleBtn = document.querySelector('.circle-btn');
         const lineBtn = document.querySelector('.line-btn');
         const pageContents = document.querySelectorAll('.page-content');
         const contentTitle = document.querySelector('.content-title');
 
-        // 页面切换函数
         function switchPage(pageId) {
             pageContents.forEach(page => page.classList.remove('active'));
             const targetPage = document.getElementById(`${pageId}-page`);
             if (targetPage) targetPage.classList.add('active');
             
             const titleMap = {
-                'all': '全部', 'tool': '工具', 'video': '影视',
-                'game': '游戏', 'chat': '计时', 'circle': '圆形按钮页',
-                'menu': '菜单按钮页'
+                'all': '全部', '2026': '2026', 'tool': '工具', 
+                'video': '影视', 'game': '游戏', 'chat': '计时', 
+                'circle': '圆形按钮页', 'menu': '菜单按钮页'
             };
             contentTitle.textContent = titleMap[pageId] || '全部';
 
@@ -344,15 +475,133 @@ strong{color:#e63946;font-weight:bold;}
             const activeBtn = document.querySelector(`.category-btn[data-page="${pageId}"]`);
             if (activeBtn) activeBtn.classList.add('active');
         }
-
-        // 分类按钮点击事件
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => switchPage(btn.getAttribute('data-page')));
-        });
-
-        // 功能按钮点击事件
+        categoryBtns.forEach(btn => btn.addEventListener('click', () => switchPage(btn.getAttribute('data-page'))));
         circleBtn.addEventListener('click', () => switchPage('circle'));
         lineBtn.addEventListener('click', () => switchPage('menu'));
+
+        // ===== 2026跨年倒计时+烟花特效 完整代码 =====
+        const targetDate = new Date('2026-01-01T00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.querySelector('.title').textContent = '新年快乐 2026 🎉';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        // 烟花特效
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+        window.addEventListener('resize', resizeCanvas);
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;this.y = y;this.speed = Math.random() * 3 + 1;this.angle = Math.random() * Math.PI * 2;
+                this.gravity = 0.02;this.vx = Math.cos(this.angle) * this.speed;this.vy = Math.sin(this.angle) * this.speed;
+                this.alpha = 1;this.decay = Math.random() * 0.01 + 0.005;this.color = color;
+            }
+            update() {this.vy += this.gravity;this.x += this.vx;this.y += this.vy;this.alpha -= this.decay;}
+            draw() {
+                ctx.save();ctx.globalAlpha = this.alpha;ctx.beginPath();ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;ctx.fill();ctx.restore();
+            }
+        }
+        function createFirework() {
+            const x = Math.random() * canvas.width;const y = Math.random() * canvas.height / 2 + canvas.height / 4;
+            const colors = ['#ff66cc','#9933ff','#66ccff','#ffcc66','#ffffff','#cc66ff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for(let i=0;i<100;i++) particles.push(new Particle(x, y, color));
+        }
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles = particles.filter(p => p.alpha > 0);
+            particles.forEach(p => {p.update();p.draw();});
+            if(Math.random() < 0.03) createFirework();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // ===== 计时页面 正计时+倒计时 双功能完整代码 =====
+        function fmtTime(s){
+            let h=Math.floor(s/3600).toString().padStart(2,'0');
+            let m=Math.floor((s%3600)/60).toString().padStart(2,'0');
+            let ss=(s%60).toString().padStart(2,'0');
+            return `${h}:${m}:${ss}`;
+        }
+        // 切换正计时/倒计时标签
+        const tabBtns = document.querySelectorAll('.timer-tab-btn');
+        const timerContents = document.querySelectorAll('.timer-content');
+        tabBtns.forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                tabBtns.forEach(t=>t.classList.remove('active'));
+                timerContents.forEach(c=>c.classList.remove('show'));
+                btn.classList.add('active');
+                document.getElementById(btn.getAttribute('data-type')).classList.add('show');
+            })
+        })
+        // 正计时(秒表)
+        let sw_timer = null;
+        let sw_sec = 0;
+        const sw_num = document.getElementById('sw_num');
+        const sw_start = document.getElementById('sw_start');
+        const sw_pause = document.getElementById('sw_pause');
+        const sw_reset = document.getElementById('sw_reset');
+        sw_start.onclick = ()=>{
+            sw_timer = setInterval(()=>{sw_sec++;sw_num.innerHTML=fmtTime(sw_sec)},1000);
+            sw_start.style.display='none';sw_pause.style.display='block';
+        }
+        sw_pause.onclick = ()=>{clearInterval(sw_timer);sw_pause.style.display='none';sw_start.style.display='block';}
+        sw_reset.onclick = ()=>{clearInterval(sw_timer);sw_sec=0;sw_num.innerHTML='00:00:00';sw_pause.style.display='none';sw_start.style.display='block';}
+        // 倒计时
+        let cd_timer = null;
+        let cd_sec = 0;
+        const cd_num = document.getElementById('cd_num');
+        const cd_start = document.getElementById('cd_start');
+        const cd_pause = document.getElementById('cd_pause');
+        const cd_reset = document.getElementById('cd_reset');
+        const cd_h = document.getElementById('cd_h');
+        const cd_m = document.getElementById('cd_m');
+        const cd_s = document.getElementById('cd_s');
+        function updCdSec(){
+            let h=parseInt(cd_h.value)||0;
+            let m=parseInt(cd_m.value)||0;
+            let s=parseInt(cd_s.value)||0;
+            cd_sec = h*3600 + m*60 + s;
+            cd_num.innerHTML=fmtTime(cd_sec);
+        }
+        cd_h.addEventListener('input',updCdSec);
+        cd_m.addEventListener('input',updCdSec);
+        cd_s.addEventListener('input',updCdSec);
+        cd_start.onclick = ()=>{
+            if(cd_sec<=0) return;
+            cd_timer = setInterval(()=>{
+                cd_sec--;cd_num.innerHTML=fmtTime(cd_sec);
+                if(cd_sec<=0){clearInterval(cd_timer);alert('计时结束！');cd_pause.style.display='none';cd_start.style.display='block';}
+            },1000);
+            cd_start.style.display='none';cd_pause.style.display='block';
+        }
+        cd_pause.onclick = ()=>{clearInterval(cd_timer);cd_pause.style.display='none';cd_start.style.display='block';}
+        cd_reset.onclick = ()=>{
+            clearInterval(cd_timer);cd_h.value='00';cd_m.value='00';cd_s.value='00';
+            cd_sec=0;cd_num.innerHTML='00:00:00';cd_pause.style.display='none';cd_start.style.display='block';
+        }
     </script>
 </body>
 </html>
