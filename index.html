@@ -437,7 +437,484 @@ strong{color:#e63946;font-weight:bold;}
         <!-- 待开发 -->
         <div class="page-content" id="circle-page">
             <h3>账户</h3>
-            <p>还没开发^_^</p>
+        <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账户·我的</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        /* 主容器 */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 600px;
+            border: 3px solid #0066cc;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fff;
+            position: relative;
+        }
+        /* 标题栏 */
+        .title {
+            font-size: 24px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0066cc;
+        }
+        /* 用户信息区域 */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #0066cc;
+            border-radius: 50%;
+            background-color: #e0efff;
+        }
+        .user-text {
+            font-size: 18px;
+            color: #0066cc;
+            line-height: 1.5;
+        }
+        /* 登录表单/个人信息容器 */
+        .form-box {
+            width: 100%;
+            max-width: 500px;
+            border: 3px solid #0066cc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        /* 登录/退出按钮 */
+        .login-btn, .logout-btn {
+            display: inline-block;
+            padding: 6px 20px;
+            background-color: #fff9cc;
+            border: 2px solid #ffcc00;
+            border-radius: 4px;
+            color: #cc9900;
+            font-weight: bold;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        /* 表单输入项 */
+        .form-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .form-label {
+            font-size: 16px;
+            color: #0066cc;
+            width: 60px;
+        }
+        .form-input {
+            flex: 1;
+            height: 35px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            padding: 0 10px;
+            background-color: #e0efff;
+            font-size: 16px;
+        }
+        /* 密码眼睛图标 */
+        .eye-icon {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #0066cc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #0066cc;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        /* 确定按钮 */
+        .confirm-btn {
+            width: 100px;
+            height: 35px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            background-color: #e0efff;
+            color: #0066cc;
+            font-weight: bold;
+            margin-left: 70px;
+            cursor: pointer;
+        }
+        /* 个人信息项 */
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .info-label {
+            font-size: 16px;
+            color: #0066cc;
+            width: 80px;
+        }
+        .info-box {
+            flex: 1;
+            height: 35px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            padding: 0 10px;
+            background-color: #e0efff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        /* 性别下拉框 */
+        .gender-select {
+            flex: 1;
+            height: 35px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            padding: 0 10px;
+            background-color: #e0efff;
+            font-size: 16px;
+            color: #000;
+            cursor: pointer;
+        }
+        /* 日期输入框 */
+        .date-input {
+            flex: 1;
+            height: 35px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            padding: 0 10px;
+            background-color: #e0efff;
+            font-size: 16px;
+            color: #000;
+        }
+        /* 权限标题 */
+        .permission-title {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #e0efff;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        /* 权限项 */
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 400px;
+        }
+        /* 绿色权限项（支持） */
+        .perm-support {
+            background-color: #e6f7e6;
+            border: 2px solid #33cc33;
+            color: #009900;
+        }
+        /* 红色权限项（不支持） */
+        .perm-unsupport {
+            background-color: #ffe6e6;
+            border: 2px solid #ff3333;
+            color: #cc0000;
+        }
+        /* 三角形/正方形图标 */
+        .icon-shape {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid currentColor;
+        }
+        .square {
+            width: 15px;
+            height: 15px;
+            border: 2px solid currentColor;
+        }
+        /* 隐藏/显示提示 */
+        .tip-text {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+            margin-left: 90px;
+        }
+        /* 隐藏模块 */
+        .hidden {
+            display: none;
+        }
+        /* 响应式适配 */
+        @media (max-width: 600px) {
+            .title {font-size: 20px;}
+            .user-text {font-size: 16px;}
+            .permission-item {font-size: 14px;}
+            .form-input, .info-box, .gender-select, .date-input {height: 30px;}
+            .confirm-btn {margin-left: 0;display: block;margin: 0 auto;}
+            .info-label {width: 60px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 标题 -->
+        <div class="title">「账户·我的」</div>
+
+        <!-- 用户信息区域 -->
+        <div class="user-info">
+            <div class="avatar"></div>
+            <div class="user-text">
+                <div id="user-role">访客</div>
+                <div>ID：<span id="user-id">未知</span></div>
+            </div>
+        </div>
+
+        <!-- 登录表单区域（初始显示） -->
+        <div class="form-box" id="login-form">
+            <div class="login-btn">登录</div> <!-- 改为登录按钮 -->
+            <div class="form-item">
+                <div class="form-label">邮箱</div>
+                <input type="text" class="form-input" id="email-input" placeholder="请输入邮箱">
+            </div>
+            <div class="form-item">
+                <div class="form-label">密码</div>
+                <input type="password" class="form-input" id="pwd-input" placeholder="请输入密码">
+                <div class="eye-icon" id="eye-btn">👁️</div>
+            </div>
+            <button class="confirm-btn" id="confirm-btn">确定</button>
+        </div>
+
+        <!-- 个人信息区域（点击确定后显示） -->
+        <div class="form-box hidden" id="info-panel">
+            <div class="logout-btn" id="info-logout-btn">退出</div> <!-- 登录后显示  -->
+            <div class="info-item">
+                <div class="info-label">邮箱</div>
+                <div class="info-box" id="email-info" title="点击显示完整邮箱">••••@xxx.com</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">密码</div>
+                <div class="info-box" id="pwd-info" title="点击显示密码">••••••••</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">性别</div>
+                <select class="gender-select" id="gender-select">
+                    <option value="不知道">不知道</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="info-item">
+                <div class="info-label">出生年月</div>
+                <input type="date" class="date-input" id="birth-date" value="2019-12-31">
+            </div>
+            <div class="tip-text">邮箱/密码框点击可显示完整内容</div>
+        </div>
+
+        <!-- 权限区域 -->
+        <div class="permission-title">权限</div>
+        <div class="permission-item perm-support">
+            <div class="icon-shape">
+                <div class="triangle"></div>
+            </div>
+            <div>入Q群与拿资源</div>
+            <div class="icon-shape">
+                <div class="square"></div>
+            </div>
+            <div>支持</div>
+        </div>
+        <div class="permission-item perm-unsupport">
+            <div class="icon-shape">
+                <div class="triangle"></div>
+            </div>
+            <div>发评论</div>
+            <div class="icon-shape">
+                <div class="square"></div>
+            </div>
+            <div>不支持</div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const emailInput = document.getElementById('email-input');
+        const pwdInput = document.getElementById('pwd-input');
+        const eyeBtn = document.getElementById('eye-btn');
+        const confirmBtn = document.getElementById('confirm-btn');
+        const loginForm = document.getElementById('login-form');
+        const infoPanel = document.getElementById('info-panel');
+        const emailInfo = document.getElementById('email-info');
+        const pwdInfo = document.getElementById('pwd-info');
+        const genderSelect = document.getElementById('gender-select');
+        const birthDate = document.getElementById('birth-date');
+        const loginBtn = document.querySelector('.login-btn');
+        const infoLogoutBtn = document.getElementById('info-logout-btn');
+        const userRole = document.getElementById('user-role');
+        const userId = document.getElementById('user-id');
+
+        // 存储原始信息
+        let originalEmail = '';
+        let originalPwd = '';
+
+        // 密码显示/隐藏（登录表单）
+        let isPwdShow = false;
+        eyeBtn.addEventListener('click', () => {
+            isPwdShow = !isPwdShow;
+            pwdInput.type = isPwdShow ? 'text' : 'password';
+            eyeBtn.textContent = isPwdShow ? '🙈' : '👁️';
+        });
+
+        // 邮箱信息框点击显示/隐藏完整邮箱
+        emailInfo.addEventListener('click', () => {
+            if (emailInfo.textContent === originalEmail) {
+                // 隐藏前四位
+                const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
+                emailInfo.textContent = hideEmail;
+            } else {
+                emailInfo.textContent = originalEmail;
+            }
+        });
+
+        // 密码信息框点击显示/隐藏完整密码
+        pwdInfo.addEventListener('click', () => {
+            if (pwdInfo.textContent === originalPwd) {
+                // 全隐藏为·
+                pwdInfo.textContent = '•'.repeat(originalPwd.length);
+            } else {
+                pwdInfo.textContent = originalPwd;
+            }
+        });
+
+        // 点击确定：切换为个人信息面板
+        confirmBtn.addEventListener('click', () => {
+            originalEmail = emailInput.value.trim();
+            originalPwd = pwdInput.value.trim();
+
+            if (!originalEmail || !originalPwd) {
+                alert('请输入完整的邮箱和密码！');
+                return;
+            }
+
+            // 生成随机用户ID
+            const randomId = 'U' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+            localStorage.setItem('userId', randomId);
+            userRole.textContent = '已登录用户';
+            userId.textContent = randomId;
+
+            // 处理邮箱隐藏（前四位）
+            const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
+            emailInfo.textContent = hideEmail;
+
+            // 处理密码隐藏（全·）
+            pwdInfo.textContent = '•'.repeat(originalPwd.length);
+
+            // 切换显示面板
+            loginForm.classList.add('hidden');
+            infoPanel.classList.remove('hidden');
+
+            // 本地存储信息
+            localStorage.setItem('userEmail', originalEmail);
+            localStorage.setItem('userPwd', originalPwd);
+            localStorage.setItem('userGender', genderSelect.value);
+            localStorage.setItem('userBirth', birthDate.value);
+        });
+
+        // 退出按钮功能
+        function logout() {
+            if (confirm('确定要退出并清除信息吗？')) {
+                // 清除本地存储
+                localStorage.clear();
+                // 重置表单和用户信息
+                emailInput.value = '';
+                pwdInput.value = '';
+                userRole.textContent = '访客';
+                userId.textContent = '未知';
+                genderSelect.value = '不知道';
+                birthDate.value = '2019-12-31';
+                // 切换回登录表单
+                infoPanel.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                alert('已退出登录');
+            }
+        }
+        infoLogoutBtn.addEventListener('click', logout);
+        // 登录按钮点击（仅提示，无实际操作）
+        loginBtn.addEventListener('click', () => {
+            alert('请输入邮箱和密码后点击「确定」完成登录');
+        });
+
+        // 页面加载：恢复已保存的信息
+        window.onload = function() {
+            const savedEmail = localStorage.getItem('userEmail');
+            const savedPwd = localStorage.getItem('userPwd');
+            const savedGender = localStorage.getItem('userGender');
+            const savedBirth = localStorage.getItem('userBirth');
+            const savedId = localStorage.getItem('userId');
+
+            if (savedEmail && savedPwd) {
+                originalEmail = savedEmail;
+                originalPwd = savedPwd;
+                // 直接显示信息面板
+                const hideEmail = savedEmail.replace(/^(.{4})/, '••••');
+                emailInfo.textContent = hideEmail;
+                pwdInfo.textContent = '•'.repeat(savedPwd.length);
+                loginForm.classList.add('hidden');
+                infoPanel.classList.remove('hidden');
+                // 恢复性别和生日
+                if (savedGender) genderSelect.value = savedGender;
+                if (savedBirth) birthDate.value = savedBirth;
+                // 恢复用户信息
+                if (savedId) {
+                    userRole.textContent = '已登录用户';
+                    userId.textContent = savedId;
+                }
+            }
+        };
+
+        // 性别和生日修改后保存到本地
+        genderSelect.addEventListener('change', () => {
+            localStorage.setItem('userGender', genderSelect.value);
+        });
+        birthDate.addEventListener('change', () => {
+            localStorage.setItem('userBirth', birthDate.value);
+        });
+    </script>
+</body>
+</html>
         </div>
 
         <!-- 关于-->
