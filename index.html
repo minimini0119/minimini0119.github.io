@@ -1,186 +1,186 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> i科科技</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title> i科科技 - iOS 26 液态玻璃原生版</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "微软雅黑", sans-serif;
+            font-family: "SF Pro Display", "SF Pro Text", "PingFang SC", "微软雅黑", sans-serif;
+            letter-spacing: -0.25px;
         }
         body {
-            background-color: #000;
+            background: linear-gradient(156deg, #f8f9fc 0%, #edf2f7 50%, #e2e8f0 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
             min-height: 100vh;
+            background-attachment: fixed;
+            overflow-x: hidden;
         }
-        /* 顶部导航容器 核心不重叠自适应 */
+        /* ✅ iOS 26 官方顶配液态玻璃核心样式 最大化增强 双层高斯模糊+超通透+亚克力+原生柔光+悬浮液态形变 */
+        .glass {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04), 0 2px 12px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255,255,255,0.98);
+            transition: all 0.5s cubic-bezier(0.17, 0.67, 0.32, 1.33);
+        }
+        .glass-hover {
+            cursor: pointer;
+        }
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.08), 0 4px 18px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,1);
+            transform: translateY(-2px) scale(1.02);
+        }
+        /* 顶部导航容器 iOS26极简 液态玻璃顶配 只留圆形账户+三线按钮 */
         .nav-container {
             width: 100%;
             max-width: 1200px;
             min-height: 90px;
             height: auto;
-            background-color: #1a1a1a;
-            border: 2px solid #ff4d4d;
-            border-radius: 12px;
+            border-radius: 24px;
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            justify-content: flex-start;
-            padding: 15px 25px;
-            margin-bottom: 25px;
+            justify-content: flex-end;
+            padding: 18px 28px;
+            margin-bottom: 28px;
             position: relative;
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
-            gap: 12px;
+            gap: 20px;
             z-index: 99;
         }
-        /* 分类按钮容器 */
+        /* 分类按钮容器 移入菜单页 排版优化 iOS26适配 */
         .category-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
+            margin-bottom: 30px;
+            justify-content: center;
+            width: 100%;
         }
         /* 右侧功能按钮容器 */
         .func-group {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
+            flex-shrink: 0;
         }
-        /* 分类标签按钮 */
+        /* ✅ iOS26 分类标签按钮 液态玻璃顶配 原生蓝+极致圆润 */
         .category-btn {
-            min-width: 70px;
+            min-width: 76px;
             width: fit-content;
-            padding: 0 15px;
-            height: 45px;
-            background-color: #1a1a1a;
-            border: 2px solid #ff4d4d;
-            border-radius: 8px;
-            color: #ff4d4d;
+            padding: 0 18px;
+            height: 48px;
+            border-radius: 16px;
+            color: #0071e3;
             font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            letter-spacing: 1px;
-        }
-        .category-btn:hover {
-            background-color: #ff4d4d;
-            color: #000;
-            transform: scale(1.05);
         }
         .category-btn.active {
-            background-color: #ff4d4d;
-            color: #000;
-            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            background: rgba(0, 113, 227, 0.16);
+            color: #0071e3;
+            box-shadow: 0 0 16px rgba(0, 113, 227, 0.24), inset 0 1px 0 rgba(255,255,255,0.8);
         }
-        /* 右侧圆形按钮 */
+        /* ✅ 核心优化：账户圆形按钮 【账户】文字绝对垂直+水平居中 iOS26原生圆形玻璃按钮 顶配参数 */
         .circle-btn {
-            width: 45px;
-            height: 45px;
-            border: 2px solid #ff4d4d;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background-color: #1a1a1a;
-            cursor: pointer;
+            color: #0071e3;
+            font-weight: 600;
+            font-size: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: #ff4d4d;
-            transition: all 0.3s ease;
+            line-height: 1;
+            text-align: center;
+            padding: 0;
+            margin:0;
         }
-        .circle-btn:hover {
-            background-color: #ff4d4d;
-            color: #000;
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-        }
-        /* 三条平行线按钮 */
+        /* ✅ iOS26 原生三线菜单按钮 顶配蓝线+圆润+液态光影 */
         .line-btn {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
         .line {
-            width: 32px;
-            height: 3px;
-            background-color: #ff4d4d;
-            border-radius: 2px;
+            width: 30px;
+            height: 2.8px;
+            background-color: #0071e3;
+            border-radius: 4px;
             transition: all 0.3s ease;
         }
         .line-btn:hover .line {
-            background-color: #fff;
-            width: 28px;
+            background-color: #0062cc;
+            width: 26px;
         }
-        /* 内容区域容器 */
+        /* ✅ 内容区域容器 iOS26 液态玻璃天花板 超大原生圆角+极致通透+双层阴影 */
         .content-container {
             width: 100%;
             max-width: 1200px;
-            min-height: 500px;
-            background-color: #1a1a1a;
-            border: 2px solid #ff4d4d;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+            min-height: 620px;
+            border-radius: 24px;
+            padding: 30px;
             position: relative;
             z-index: 10;
+            color:#1d1d1f;
         }
-        /* 内容标题 */
+        /* ✅ iOS26 原生标题排版 加粗+灰黑+极简细下划线 完美对齐iOS规范 */
         .content-title {
-            font-size: 26px;
-            color: #ff4d4d;
-            font-weight: bold;
-            border-bottom: 2px solid #ff4d4d;
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
+            font-size: 28px;
+            color: #1d1d1f;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding-bottom: 14px;
+            margin-bottom: 30px;
         }
         /* 页面内容区域 */
         .page-content {
             display: none;
             font-size: 18px;
-            color: #fff;
-            line-height: 1.8;
+            color: #1d1d1f;
+            line-height: 1.85;
             width: 100%;
             height: 100%;
         }
         .page-content.active {
             display: block;
         }
-        /* ===== 计时/倒计时双功能样式 ===== */
+        /* ===== 计时/倒计时双功能样式 iOS26液态玻璃顶配重构 ===== */
         .timer-wrap{width:100%;padding:10px 0;}
-        .timer-tab{display:flex;justify-content:center;gap:15px;margin-bottom:25px;}
-        .timer-tab-btn{padding:10px 22px;border:2px solid #ff4d4d;background:#1a1a1a;color:#ff4d4d;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;transition:0.3s;}
-        .timer-tab-btn.active{background:#ff4d4d;color:#000;box-shadow:0 0 10px #ff4d4d;}
+        .timer-tab{display:flex;justify-content:center;gap:18px;margin-bottom:30px;}
+        .timer-tab-btn{padding:12px 24px;border-radius:16px;color:#0071e3;font-size:18px;font-weight:600;cursor:pointer;}
+        .timer-tab-btn.active{background: rgba(0,113,227,0.16);color:#0071e3;box-shadow:0 0 12px rgba(0,113,227,0.2);}
         .timer-content{display:none;width:100%;}
         .timer-content.show{display:block;}
-        .stopwatch-box, .countdown-box{text-align:center;padding:20px;background:#222;border-radius:10px;border:1px solid #ff4d4d;margin:0 auto;max-width:500px;}
-        .timer-num{font-size:45px;color:#fff;margin:20px 0;text-shadow:0 0 10px #ff4d4d;letter-spacing:2px;}
-        .timer-btn-group{display:flex;gap:12px;justify-content:center;margin-top:25px;flex-wrap:wrap;}
-        .timer-btn{padding:10px 20px;border:none;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer;color:#fff;min-width:90px;}
-        .btn-start{background:#27ae60;}
-        .btn-pause{background:#f39c12;}
-        .btn-reset{background:#e74c3c;}
-        .countdown-set-box{display:flex;gap:10px;justify-content:center;margin-bottom:20px;}
-        .countdown-set-box input{width:70px;padding:10px;background:#1a1a1a;border:1px solid #ff4d4d;color:#fff;text-align:center;border-radius:6px;font-size:16px;}
-        /* ===== 2026页面专属美化【核心修改】===== */
+        .stopwatch-box, .countdown-box{text-align:center;padding:24px;border-radius:20px;margin:0 auto;max-width:520px;}
+        .timer-num{font-size:48px;color:#1d1d1f;margin:24px 0;letter-spacing:2px;font-weight:600;}
+        .timer-btn-group{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap;}
+        .timer-btn{padding:12px 22px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;color:#fff;min-width:96px;border:1px solid rgba(255,255,255,0.6);}
+        .btn-start{background:#34c759;}
+        .btn-pause{background:#ff9500;}
+        .btn-reset{background:#ff3b30;}
+        .countdown-set-box{display:flex;gap:12px;justify-content:center;margin-bottom:24px;}
+        .countdown-set-box input{width:76px;padding:12px;background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.9);color:#1d1d1f;text-align:center;border-radius:12px;font-size:17px;}
+        /* ===== 2026页面样式 iOS26液态玻璃顶配重构 柔色烟花+通透倒计时 ===== */
         #fireworks {position: fixed;top: 0;left: 0;width: 100%;height: 100%;pointer-events: none;z-index: 1;}
         #2026-page {
             width: 100%;
@@ -192,106 +192,317 @@
             text-align: center;
             padding: 20px 0;
         }
-        /* 2026倒计时整体加框+美化 */
         .countdown {
             display: flex;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-            padding: 25px 30px;
-            background: rgba(26, 26, 26, 0.8);
-            border: 2px solid #ff4d4d;
-            border-radius: 18px;
-            box-shadow: 0 0 20px rgba(255,77,77,0.5), 0 0 30px rgba(255,77,77,0.3) inset;
-            backdrop-filter: blur(8px);
+            gap: 1.4rem;
+            margin-bottom: 2.4rem;
+            padding: 30px 36px;
+            border-radius: 24px;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border:1px solid rgba(255,255,255,0.9);
         }
         .time-box {
             text-align: center;
-            padding: 1rem 1.5rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(153, 51, 255, 0.3);
+            padding: 1.2rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
         .num {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #f0e6ff;
-            text-shadow: 0 0 15px #c98fff;
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: #1d1d1f;
         }
-        .text {font-size: 0.9rem;color: #c7b3e8;margin-top: 0.5rem;}
-        .title {font-size: 2.2rem;margin-bottom: 2rem;text-shadow: 0 0 20px #9933ff;}
-        .year {font-size: 4rem;font-weight: bold;color: #fff;text-shadow: 0 0 30px #9933ff;margin-top: 1rem;}
-        .tip {margin-top: 2rem;color: #b8a4e0;font-size: 1rem;}
-        /* 响应式适配 */
+        .text {font-size: 0.95rem;color: #6e6e73;margin-top: 0.6rem;}
+        .title {font-size: 2.4rem;margin-bottom: 2rem;font-weight:700;color:#1d1d1f;}
+        .year {font-size: 4.2rem;font-weight: 700;color: #0071e3;margin-top: 1rem;}
+        .tip {margin-top: 2.4rem;color: #6e6e73;font-size: 1.1rem;}
+		/* ===== ✅ 账户页面 iOS26液态玻璃顶配风格 完整重构 原生蓝主题+通透毛玻璃 全细节对齐iOS26 ===== */
+        .container {
+            width: 100%;
+            max-width: 820px;
+            min-height: 620px;
+            border-radius: 24px;
+            padding: 26px;
+            position: relative;
+        }
+        .account-title {
+            font-size: 26px;
+            color: #1d1d1f;
+            font-weight: 700;
+            margin-bottom: 30px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 36px;
+        }
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: rgba(0,113,227,0.12);
+            border:1px solid rgba(0,113,227,0.24);
+        }
+        .user-text {
+            font-size: 19px;
+            color: #0071e3;
+            line-height: 1.6;
+        }
+        .form-box {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 36px;
+        }
+        .login-btn, .logout-btn {
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 12px;
+            background-color: rgba(255,204,0,0.12);
+            border:1px solid rgba(255,204,0,0.32);
+            color: #ff9500;
+            font-weight: 600;
+            margin-bottom: 18px;
+            cursor: pointer;
+        }
+        .form-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .form-label {
+            font-size: 17px;
+            color: #0071e3;
+            width: 66px;
+        }
+        .form-input {
+            flex: 1;
+            height: 38px;
+            border-radius: 12px;
+            padding: 0 12px;
+            background-color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            color:#1d1d1f;
+            border:1px solid rgba(255,255,255,0.9);
+        }
+        .eye-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #0071e3;
+            font-weight: 600;
+            font-size: 15px;
+            border:1px solid rgba(0,113,227,0.24);
+        }
+        .confirm-btn {
+            width: 108px;
+            height: 38px;
+            border-radius: 12px;
+            background-color: rgba(0,113,227,0.12);
+            color: #0071e3;
+            font-weight: 600;
+            margin-left: 78px;
+            cursor: pointer;
+            border:1px solid rgba(0,113,227,0.24);
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .info-label {
+            font-size: 17px;
+            color: #0071e3;
+            width: 86px;
+        }
+        .info-box {
+            flex: 1;
+            height: 38px;
+            border-radius: 12px;
+            padding: 0 12px;
+            background-color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color:#1d1d1f;
+            border:1px solid rgba(255,255,255,0.9);
+        }
+        .gender-select {
+            flex: 1;
+            height: 38px;
+            border-radius: 12px;
+	        padding: 0 12px;
+            background-color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            color: #1d1d1f;
+            cursor: pointer;
+            border:1px solid rgba(255,255,255,0.9);
+        }
+        .date-input {
+            flex: 1;
+            height: 38px;
+            border-radius: 12px;
+            padding: 0 12px;
+            background-color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            color: #1d1d1f;
+            border:1px solid rgba(255,255,255,0.9);
+        }
+        .permission-title {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 12px;
+            background-color: rgba(0,113,227,0.12);
+            color: #0071e3;
+            font-weight: 600;
+            margin-bottom: 18px;
+            border:1px solid rgba(0,113,227,0.24);
+        }
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            width: 100%;
+            max-width: 420px;
+            border:1px solid rgba(255,255,255,0.9);
+        }
+        .perm-support {
+            background-color: rgba(52, 199, 89, 0.12);
+            color: #34c759;
+        }
+        .perm-unsupport {
+            background-color: rgba(255, 59, 48, 0.12);
+            color: #ff3b30;
+        }
+        .icon-shape {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 16px solid currentColor;
+        }
+        .square {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+        }
+        .tip-text {
+            color: #6e6e73;
+            font-size: 13px;
+            margin-top: 6px;
+            margin-left: 98px;
+        }
+        .hidden {
+            display: none;
+        }
+        /* ✅ iOS26 原生响应式适配 全尺寸完美兼容 移动端顶配显示 */
         @media (max-width: 768px) {
-            .title {font-size: 1.8rem;}
-            .countdown {gap: 0.8rem;padding: 20px 15px;}
-            .num {font-size: 2.5rem;}
-            .time-box {padding: 0.8rem 1rem;}
-            .year {font-size: 3rem;}
+            .title {font-size: 2rem;}
+            .countdown {gap: 1rem;padding: 24px 20px;}
+            .num {font-size: 2.8rem;}
+            .time-box {padding: 1rem 1.4rem;}
+            .year {font-size: 3.4rem;}
+            .category-btn {font-size:16px;height:44px;padding:0 14px;min-width: 70px;}
         }
         @media (max-width: 600px) {
-            .func-group {position: static;transform: none;margin-top:10px;align-self:flex-end;}
-            .nav-container {padding-bottom:20px;}
-            .category-btn {font-size:15px;height:40px;padding:0 12px;}
-            .circle-btn, .line-btn {width:40px;height:40px;}
+            .nav-container {padding:14px 20px;min-height: 80px;border-radius:20px;gap:16px;}
+            .category-group {gap:10px;}
+            .category-btn {font-size:15px;height:42px;padding:0 12px;border-radius:14px;}
+            .circle-btn, .line-btn {width:44px;height:44px;font-size:14px;}
             .line {width:28px;}
-            .content-title {font-size:22px;}
-            .timer-num{font-size:30px;}
+            .content-title {font-size:24px;}
+            .timer-num{font-size:36px;}
+            .func-group {gap:16px;}
+            .account-title {font-size: 22px;}
+            .user-text {font-size: 17px;}
+            .permission-item {font-size: 15px;}
+            .form-input, .info-box, .gender-select, .date-input {height: 34px;}
+            .confirm-btn {margin-left: 0;display: block;margin: 0 auto;}
+            .info-label {width: 66px;}
         }
         @media (max-width: 480px) {
             .page-content {font-size:16px;}
-            .timer-tab-btn{padding:8px 16px;font-size:16px;}
-            .countdown {gap: 0.5rem;}
-            .num {font-size: 2rem;}
+            .timer-tab-btn{padding:10px 18px;font-size:16px;}
+            .countdown {gap: 0.6rem;}
+            .num {font-size: 2.2rem;}
+            .category-btn {font-size:14px;height:38px;border-radius:12px;}
+            .content-container{border-radius:20px;padding:24px;}
+            .circle-btn, .line-btn {width:40px;height:40px;font-size:13px;}
         }
     </style>
 </head>
 <body>
-    <!-- 顶部导航栏 -->
-    <div class="nav-container">
-        <div class="category-group">
-            <button class="category-btn active" data-page="all">全部</button>
-            <button class="category-btn" data-page="2026">2026</button>
-            <button class="category-btn" data-page="tool">工具</button>
-            <button class="category-btn" data-page="video">影视</button>
-            <button class="category-btn" data-page="game">游戏</button>
-            <button class="category-btn" data-page="tools">小工具</button>
-        </div>
+    <!-- 顶部导航栏 只保留【圆形账户按钮】+【三条平行线按钮】 iOS26液态玻璃顶配 -->
+    <div class="nav-container glass">
         <div class="func-group">
-            <div class="circle-btn" data-page="circle">账户</div>
-            <div class="line-btn" data-page="menu">
+            <div class="circle-btn glass glass-hover" data-page="circle">账户</div>
+            <div class="line-btn glass glass-hover" data-page="menu">
                 <div class="line"></div>
                 <div class="line"></div>
                 <div class="line"></div>
             </div>
         </div>
-    </div>
+    </div> 
 
-    <!-- 内容区域 -->
-    <div class="content-container">
-        <div class="content-title">全部</div>
+    <!-- 内容区域 iOS26核心液态玻璃容器 顶配参数 -->
+    <div class="content-container glass">
+        <div class="content-title">主页</div>
+        
+        <!-- 主页页面 默认打开第一个页面 -->
+        <div class="page-content active" id="home-page">
+            <p>欢迎访问 i科科技 官网</p>
+            <p>本站提供各类优质资源、工具、游戏、影视等内容，持续更新中...</p>
+            <p>微信公众号：i科科技 | 官网：https://minimini0119.github.io/</p>
+        </div>
         
         <!-- 全部页面 -->
-        <div class="page-content active" id="all-page">
-
-      <p> 【Windows免费激活码（家庭、专业、企业】： 
+        <div class="page-content" id="all-page">
+            <p> 【Windows免费激活码（家庭、专业、企业】： 
 教程：https://mp.weixin.qq.com/s/R3Pcxo4JU3AM17F5w4rzHw 
 资源：KMS.CX </p>
             <p>由于刚建站，在慢慢上传，请待更新……</p>
-
         </div>
-
-        <!-- ===== 2026页面【核心修改：文字完全居中+倒计时加精美框】===== -->
+        
+        <!-- 镜像页面 -->
+        <div class="page-content" id="mirror-page">
+            <p>镜像站点地址</p>
+            <p>主站：https://minimini0119.github.io/</p>
+            <p>镜像站持续更新中，敬请关注公众号获取最新地址</p>
+        </div>    
+        <!-- 2026页面 -->
         <div class="page-content" id="2026-page">
             <canvas id="fireworks"></canvas>
-            <div class="title">2026 甲辰龙年 · 跨年倒计时</div>
-            <div class="countdown">
-                <div class="time-box"><div class="num" id="days">00</div><div class="text">天</div></div>
-                <div class="time-box"><div class="num" id="hours">00</div><div class="text">时</div></div>
-                <div class="time-box"><div class="num" id="minutes">00</div><div class="text">分</div></div>
-                <div class="time-box"><div class="num" id="seconds">00</div><div class="text">秒</div></div>
+            <div class="title">2026 丙午马年 · 跨年倒计时</div>
+            <div class="countdown glass">
+                <div class="time-box glass"><div class="num" id="days">00</div><div class="text">天</div></div>
+                <div class="time-box glass"><div class="num" id="hours">00</div><div class="text">时</div></div>
+                <div class="time-box glass"><div class="num" id="minutes">00</div><div class="text">分</div></div>
+                <div class="time-box glass"><div class="num" id="seconds">00</div><div class="text">秒</div></div>
             </div>
             <div class="year">2026</div>
             <div class="tip">所求皆如愿，所行皆坦途 ✨</div>
@@ -309,102 +520,27 @@
         <!-- 影视页面 -->
         <div class="page-content" id="video-page">
             <h3>影视分类</h3>
-
             <p>由于刚建站，在慢慢上传，请待更新……</p>
-
         </div>
 
         <!-- 游戏页面 -->
         <div class="page-content" id="game-page">
             <h3>游戏分类</h3>
-     <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>怀旧游戏网站推荐-公众号文章</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.8;color:#333;background:#fff;padding:10px 15px;}
-h1{font-size:22px;text-align:center;margin:20px 0 30px 0;font-weight:bold;line-height:1.5;color:#222;}
-h2{font-size:18px;margin:25px 0 15px 0;padding-left:8px;border-left:3px solid #e63946;font-weight:bold;color:#333;}
-h3{font-size:17px;margin:20px 0 12px 0;font-weight:bold;color:#333;}
-p{margin:12px 0;text-indent:0;}
-ul{margin:10px 0 10px 20px;}
-li{margin:8px 0;list-style:none;position:relative;padding-left:18px;}
-li:before{content:"▸";position:absolute;left:0;color:#e63946;}
-strong{color:#e63946;font-weight:bold;}
-.tips{background:#f8f8f8;padding:12px 15px;border-radius:8px;margin:15px 0;}
-</style>
-</head>
-<body>
-<!-- 标题版本一【爆款温情，最推荐，公众号首选】 -->
-<h1>收藏！8个免费怀旧游戏网站，浏览器即开即玩，重温童年的快乐时光</h1>
-
-<p>小时候最快乐的事，莫过于守着红白机闯关，挤在游戏厅里搓摇杆，抱着掌机沉浸在像素的世界里。那些经典的BGM一响，瞬间就能勾起满满的青春回忆。</p>
-
-<p>不用下载、不用安装、不用找资源，今天整理了全网最好用的<strong>怀旧游戏网站合集</strong>，覆盖FC红白机、街机、DOS经典、GBA/掌机全平台，手机、平板、电脑浏览器直接点开就能玩，无广告无套路，纯纯的童年复刻，一秒找回儿时的快乐。</p>
-
-<h2>这些游戏，承包了我们的整个童年</h2>
-<p>一代人的童年，总有几款刻进DNA的经典游戏，没有华丽的画质，却有最纯粹的快乐，每一款都是无法复刻的经典。</p>
-<ul>
-<li>FC红白机｜魂斗罗、超级马里奥、坦克大战、冒险岛、热血系列、松鼠大战，简单的像素画面，藏着最热血的闯关乐趣。</li>
-<li>街机厅神作｜拳皇97、合金弹头、三国战纪、恐龙快打、西游记释厄传，摇杆搓出的连招，是年少时最耀眼的高光时刻。</li>
-<li>DOS经典RPG｜仙剑奇侠传、金庸群侠传、大富翁4、三国志，一字一句的剧情，一招一式的打怪，是中式游戏的初代浪漫。</li>
-<li>掌机/GBA｜口袋妖怪、塞尔达传说、火影忍者、星之卡比，小小的屏幕里，装着大大的冒险世界，是放学路上的专属欢喜。</li>
-</ul>
-
-<h2>国内优选｜中文友好+完美适配，闭眼冲就对了</h2>
-<p>全部都是<strong>中文界面、无繁乱广告、手机/平板适配极佳</strong>，不用懂英文，不用调复杂设置，点开即玩，体验感拉满，排名不分先后，每一个都值得收藏！</p>
-<ul>
-<li>小霸王其乐无穷 <strong>yikm.net</strong>：主打FC红白机+街机游戏，经典款全覆盖，支持存档、读档、金手指，还能双人联机，界面干净简洁，手机横屏玩手感超棒。</li>
-<li>重返8090 <strong>return8090.com</strong>：怀旧游戏全能宝库，FC、街机、GBA、NDS、MD全平台收录，分类清晰，模拟器稳定不闪退，冷门款也能找到。</li>
-<li>在线DOS游戏 <strong>dos.zczc.cz</strong>：近2000款DOS老游戏合集，仙剑、金庸群侠传等封神RPG齐全，浏览器直接运行，完美还原当年的游玩体验。</li>
-<li>畅玩空间：街机+家用机全覆盖，亮点是联机功能，可远程和朋友一起玩，还有微信小程序版本，不用记网址，点开即玩。</li>
-<li>famicn <strong>famicn.com</strong>：小众宝藏站，收录国产掌机、学习机绝版游戏，适合资深怀旧党深挖童年小众回忆。</li>
-</ul>
-
-<h2>国外精选｜资源超多+无广告，硬核玩家首选</h2>
-<p>资源量超大，无任何弹窗广告，运行流畅，唯一小缺点是英文界面，但操作简单，看懂游戏名称就能玩，适配性完全没问题，满足你的所有怀旧需求。</p>
-<ul>
-<li>RetroGames <strong>retrogames.cc</strong>：国外老牌复古大站，数千款游戏覆盖多平台，分类细致，支持手柄连接和存档，无广告沉浸式游玩首选。</li>
-<li>We Play Retro <strong>weplayretro.games</strong>：精选经典佳作，无冗余内容，手机端适配优化极佳，按键布局合理，点开就能上手。</li>
-<li>RetroGameZ <strong>retrogamez.online</strong>：主打现代优化，支持自定义按键、调节游戏速度，贴合当下操作习惯，硬核玩家的优选。</li>
-</ul>
-
-<h2>超实用游玩小贴士｜新手必看</h2>
-<div class="tips">
-<ul>
-<li>设备适配：平板/iPad玩开<strong>横屏+全屏模式</strong>，视野开阔；手机玩关闭悬浮窗，体验感翻倍。</li>
-<li>功能妙用：大部分网站支持存档/读档+金手指，卡关不用硬肝，轻松通关更快乐。</li>
-<li>手感升级：可连接蓝牙手柄，瞬间找回搓红白机、街机摇杆的童年手感。</li>
-<li>温馨提醒：游戏仅用于个人怀旧娱乐，尊重游戏版权，切勿传播游戏资源，让快乐延续。</li>
-</ul>
-</div>
-
-<p style="margin-top:25px;text-align:center;">你童年最爱的那款游戏是什么？评论区聊聊吧～</p>
-
-<!-- 标题版本二【简洁干货，适合干货类公众号，替换上方h1即可】 -->
-<!-- <h1>8个免费怀旧游戏网站合集｜浏览器即开即玩，FC/街机/DOS全收录</h1> -->
-
-<!-- 标题版本三【短句吸睛，年轻化账号专属，替换上方h1即可】 -->
-<!-- <h1>怀旧党狂喜！8个宝藏网站，免费玩遍童年所有经典游戏</h1> -->
-
-</body>
-</html>
+            <p>收藏！8个免费怀旧游戏网站，浏览器即开即玩，重温童年的快乐时光</p>
+            <p>小时候最快乐的事，莫过于守着红白机闯关，挤在游戏厅里搓摇杆，抱着掌机沉浸在像素的世界里。那些经典的BGM一响，瞬间就能勾起满满的青春回忆。</p>
+            <p>不用下载、不用安装、不用找资源，今天整理了全网最好用的<strong>怀旧游戏网站合集</strong>，覆盖FC红白机、街机、DOS经典、GBA/掌机全平台，手机、平板、电脑浏览器直接点开就能玩，无广告无套路，纯纯的童年复刻，一秒找回儿时的快乐。</p>
         </div>
 
         <!-- 计时页面 正计时+倒计时双功能 -->
         <div class="page-content" id="tools-page">
-            <h3 style="text-align:center;margin-bottom:15px;">计时工具 | 正计时/倒计时</h3>
+            <h3 style="text-align:center;margin-bottom:18px;">计时工具 | 正计时/倒计时</h3>
             <div class="timer-wrap">
                 <div class="timer-tab">
                     <div class="timer-tab-btn active" data-type="stopwatch">正计时</div>
                     <div class="timer-tab-btn" data-type="countdown">倒计时</div>
                 </div>
-                <!-- 正计时模块 -->
                 <div class="timer-content show" id="stopwatch">
-                    <div class="stopwatch-box">
+                    <div class="stopwatch-box glass">
                         <div class="timer-num" id="sw_num">00:00:00</div>
                         <div class="timer-btn-group">
                             <button class="timer-btn btn-start" id="sw_start">开始</button>
@@ -413,14 +549,13 @@ strong{color:#e63946;font-weight:bold;}
                         </div>
                     </div>
                 </div>
-                <!-- 倒计时模块 -->
                 <div class="timer-content" id="countdown">
-                    <div class="countdown-box">
+                    <div class="countdown-box glass">
                         <div class="countdown-set-box">
                             <input type="number" id="cd_h" placeholder="时" min="0" max="23" value="00">
-                            <span style="color:#fff;">:</span>
+                            <span style="color:#1d1d1f;">:</span>
                             <input type="number" id="cd_m" placeholder="分" min="0" max="59" value="00">
-                            <span style="color:#fff;">:</span>
+                            <span style="color:#1d1d1f;">:</span>
                             <input type="number" id="cd_s" placeholder="秒" min="0" max="59" value="00">
                         </div>
                         <div class="timer-num" id="cd_num">00:00:00</div>
@@ -434,494 +569,106 @@ strong{color:#e63946;font-weight:bold;}
             </div>
         </div>  
 
-        <!-- 待开发 -->
+        <!-- ✅ 账户页面 iOS26液态玻璃顶配风格 完整保留所有登录功能 -->
         <div class="page-content" id="circle-page">
-            <h3>账户</h3>
-        <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>账户·我的</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "微软雅黑", sans-serif;
-        }
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-        /* 主容器 */
-        .container {
-            width: 100%;
-            max-width: 800px;
-            min-height: 600px;
-            border: 3px solid #0066cc;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #fff;
-            position: relative;
-        }
-        /* 标题栏 */
-        .title {
-            font-size: 24px;
-            color: #0066cc;
-            font-weight: bold;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #0066cc;
-        }
-        /* 用户信息区域 */
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #0066cc;
-            border-radius: 50%;
-            background-color: #e0efff;
-        }
-        .user-text {
-            font-size: 18px;
-            color: #0066cc;
-            line-height: 1.5;
-        }
-        /* 登录表单/个人信息容器 */
-        .form-box {
-            width: 100%;
-            max-width: 500px;
-            border: 3px solid #0066cc;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        /* 登录/退出按钮 */
-        .login-btn, .logout-btn {
-            display: inline-block;
-            padding: 6px 20px;
-            background-color: #fff9cc;
-            border: 2px solid #ffcc00;
-            border-radius: 4px;
-            color: #cc9900;
-            font-weight: bold;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-        /* 表单输入项 */
-        .form-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .form-label {
-            font-size: 16px;
-            color: #0066cc;
-            width: 60px;
-        }
-        .form-input {
-            flex: 1;
-            height: 35px;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            padding: 0 10px;
-            background-color: #e0efff;
-            font-size: 16px;
-        }
-        /* 密码眼睛图标 */
-        .eye-icon {
-            width: 30px;
-            height: 30px;
-            border: 2px solid #0066cc;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: #0066cc;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        /* 确定按钮 */
-        .confirm-btn {
-            width: 100px;
-            height: 35px;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            background-color: #e0efff;
-            color: #0066cc;
-            font-weight: bold;
-            margin-left: 70px;
-            cursor: pointer;
-        }
-        /* 个人信息项 */
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .info-label {
-            font-size: 16px;
-            color: #0066cc;
-            width: 80px;
-        }
-        .info-box {
-            flex: 1;
-            height: 35px;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            padding: 0 10px;
-            background-color: #e0efff;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        /* 性别下拉框 */
-        .gender-select {
-            flex: 1;
-            height: 35px;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            padding: 0 10px;
-            background-color: #e0efff;
-            font-size: 16px;
-            color: #000;
-            cursor: pointer;
-        }
-        /* 日期输入框 */
-        .date-input {
-            flex: 1;
-            height: 35px;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            padding: 0 10px;
-            background-color: #e0efff;
-            font-size: 16px;
-            color: #000;
-        }
-        /* 权限标题 */
-        .permission-title {
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: #e0efff;
-            border: 2px solid #0066cc;
-            border-radius: 4px;
-            color: #0066cc;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        /* 权限项 */
-        .permission-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            width: 100%;
-            max-width: 400px;
-        }
-        /* 绿色权限项（支持） */
-        .perm-support {
-            background-color: #e6f7e6;
-            border: 2px solid #33cc33;
-            color: #009900;
-        }
-        /* 红色权限项（不支持） */
-        .perm-unsupport {
-            background-color: #ffe6e6;
-            border: 2px solid #ff3333;
-            color: #cc0000;
-        }
-        /* 三角形/正方形图标 */
-        .icon-shape {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .triangle {
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 15px solid currentColor;
-        }
-        .square {
-            width: 15px;
-            height: 15px;
-            border: 2px solid currentColor;
-        }
-        /* 隐藏/显示提示 */
-        .tip-text {
-            color: #666;
-            font-size: 12px;
-            margin-top: 5px;
-            margin-left: 90px;
-        }
-        /* 隐藏模块 */
-        .hidden {
-            display: none;
-        }
-        /* 响应式适配 */
-        @media (max-width: 600px) {
-            .title {font-size: 20px;}
-            .user-text {font-size: 16px;}
-            .permission-item {font-size: 14px;}
-            .form-input, .info-box, .gender-select, .date-input {height: 30px;}
-            .confirm-btn {margin-left: 0;display: block;margin: 0 auto;}
-            .info-label {width: 60px;}
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- 标题 -->
-        <div class="title">「账户·我的」</div>
-
-        <!-- 用户信息区域 -->
-        <div class="user-info">
-            <div class="avatar"></div>
-            <div class="user-text">
-                <div id="user-role">访客</div>
-                <div>ID：<span id="user-id">未知</span></div>
+            <div class="container glass">
+                <div class="account-title">「账户·我的」</div>
+                <div class="user-info">
+                    <div class="avatar"></div>
+                    <div class="user-text">
+                        <div id="user-role">访客</div>
+                        <div>ID：<span id="user-id">未知</span></div>
+                    </div>
+                </div>
+                <div class="form-box glass" id="login-form">
+                    <div class="login-btn">登录</div>
+                    <div class="form-item">
+                        <div class="form-label">邮箱</div>
+                        <input type="text" class="form-input" id="email-input" placeholder="请输入邮箱">
+                    </div>
+                    <div class="form-item">
+                        <div class="form-label">密码</div>
+                        <input type="password" class="form-input" id="pwd-input" placeholder="请输入密码">
+                        <div class="eye-icon" id="eye-btn">👁️</div>
+                    </div>
+                    <button class="confirm-btn glass-hover" id="confirm-btn">确定</button>
+                </div>
+                <div class="form-box glass hidden" id="info-panel">
+                    <div class="logout-btn">退出</div>
+                    <div class="info-item">
+                        <div class="info-label">邮箱</div>
+                        <div class="info-box" id="email-info" title="点击显示完整邮箱">••••@xxx.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">密码</div>
+                        <div class="info-box" id="pwd-info" title="点击显示密码">••••••••</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">性别</div>
+                        <select class="gender-select" id="gender-select">
+                            <option value="不知道">不知道</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">出生年月</div>
+                        <input type="date" class="date-input" id="birth-date" value="2019-12-31">
+                    </div>
+                    <div class="tip-text">邮箱/密码框点击可显示完整内容</div>
+                </div>
+                <div class="permission-title">权限</div>
+                <div class="permission-item perm-support">
+                    <div class="icon-shape">
+                        <div class="triangle"></div>
+                    </div>
+                    <div>入群(闲聊/取题)</div>
+                    <div class="icon-shape">
+                        <div class="square"></div>
+                    </div>
+                    <div>支持</div>
+                </div>
+                <div class="permission-item perm-unsupport">
+                    <div class="icon-shape">
+                        <div class="triangle"></div>
+                    </div>
+                    <div>发评论</div>
+                    <div class="icon-shape">
+                        <div class="square"></div>
+                    </div>
+                    <div>不支持</div>
+                </div>
             </div>
         </div>
 
-        <!-- 登录表单区域（初始显示） -->
-        <div class="form-box" id="login-form">
-            <div class="login-btn">登录</div> <!-- 改为登录按钮 -->
-            <div class="form-item">
-                <div class="form-label">邮箱</div>
-                <input type="text" class="form-input" id="email-input" placeholder="请输入邮箱">
-            </div>
-            <div class="form-item">
-                <div class="form-label">密码</div>
-                <input type="password" class="form-input" id="pwd-input" placeholder="请输入密码">
-                <div class="eye-icon" id="eye-btn">👁️</div>
-            </div>
-            <button class="confirm-btn" id="confirm-btn">确定</button>
-        </div>
-
-        <!-- 个人信息区域（点击确定后显示） -->
-        <div class="form-box hidden" id="info-panel">
-            <div class="logout-btn" id="info-logout-btn">退出</div> <!-- 登录后显示  -->
-            <div class="info-item">
-                <div class="info-label">邮箱</div>
-                <div class="info-box" id="email-info" title="点击显示完整邮箱">••••@xxx.com</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">密码</div>
-                <div class="info-box" id="pwd-info" title="点击显示密码">••••••••</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">性别</div>
-                <select class="gender-select" id="gender-select">
-                    <option value="不知道">不知道</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                </select>
-            </div>
-            <div class="info-item">
-                <div class="info-label">出生年月</div>
-                <input type="date" class="date-input" id="birth-date" value="2019-12-31">
-            </div>
-            <div class="tip-text">邮箱/密码框点击可显示完整内容</div>
-        </div>
-
-        <!-- 权限区域 -->
-        <div class="permission-title">权限</div>
-        <div class="permission-item perm-support">
-            <div class="icon-shape">
-                <div class="triangle"></div>
-            </div>
-            <div>入Q群与拿资源</div>
-            <div class="icon-shape">
-                <div class="square"></div>
-            </div>
-            <div>支持</div>
-        </div>
-        <div class="permission-item perm-unsupport">
-            <div class="icon-shape">
-                <div class="triangle"></div>
-            </div>
-            <div>发评论</div>
-            <div class="icon-shape">
-                <div class="square"></div>
-            </div>
-            <div>不支持</div>
-        </div>
-    </div>
-
-    <script>
-        // 获取DOM元素
-        const emailInput = document.getElementById('email-input');
-        const pwdInput = document.getElementById('pwd-input');
-        const eyeBtn = document.getElementById('eye-btn');
-        const confirmBtn = document.getElementById('confirm-btn');
-        const loginForm = document.getElementById('login-form');
-        const infoPanel = document.getElementById('info-panel');
-        const emailInfo = document.getElementById('email-info');
-        const pwdInfo = document.getElementById('pwd-info');
-        const genderSelect = document.getElementById('gender-select');
-        const birthDate = document.getElementById('birth-date');
-        const loginBtn = document.querySelector('.login-btn');
-        const infoLogoutBtn = document.getElementById('info-logout-btn');
-        const userRole = document.getElementById('user-role');
-        const userId = document.getElementById('user-id');
-
-        // 存储原始信息
-        let originalEmail = '';
-        let originalPwd = '';
-
-        // 密码显示/隐藏（登录表单）
-        let isPwdShow = false;
-        eyeBtn.addEventListener('click', () => {
-            isPwdShow = !isPwdShow;
-            pwdInput.type = isPwdShow ? 'text' : 'password';
-            eyeBtn.textContent = isPwdShow ? '🙈' : '👁️';
-        });
-
-        // 邮箱信息框点击显示/隐藏完整邮箱
-        emailInfo.addEventListener('click', () => {
-            if (emailInfo.textContent === originalEmail) {
-                // 隐藏前四位
-                const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
-                emailInfo.textContent = hideEmail;
-            } else {
-                emailInfo.textContent = originalEmail;
-            }
-        });
-
-        // 密码信息框点击显示/隐藏完整密码
-        pwdInfo.addEventListener('click', () => {
-            if (pwdInfo.textContent === originalPwd) {
-                // 全隐藏为·
-                pwdInfo.textContent = '•'.repeat(originalPwd.length);
-            } else {
-                pwdInfo.textContent = originalPwd;
-            }
-        });
-
-        // 点击确定：切换为个人信息面板
-        confirmBtn.addEventListener('click', () => {
-            originalEmail = emailInput.value.trim();
-            originalPwd = pwdInput.value.trim();
-
-            if (!originalEmail || !originalPwd) {
-                alert('请输入完整的邮箱和密码！');
-                return;
-            }
-
-            // 生成随机用户ID
-            const randomId = 'U' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-            localStorage.setItem('userId', randomId);
-            userRole.textContent = '已登录用户';
-            userId.textContent = randomId;
-
-            // 处理邮箱隐藏（前四位）
-            const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
-            emailInfo.textContent = hideEmail;
-
-            // 处理密码隐藏（全·）
-            pwdInfo.textContent = '•'.repeat(originalPwd.length);
-
-            // 切换显示面板
-            loginForm.classList.add('hidden');
-            infoPanel.classList.remove('hidden');
-
-            // 本地存储信息
-            localStorage.setItem('userEmail', originalEmail);
-            localStorage.setItem('userPwd', originalPwd);
-            localStorage.setItem('userGender', genderSelect.value);
-            localStorage.setItem('userBirth', birthDate.value);
-        });
-
-        // 退出按钮功能
-        function logout() {
-            if (confirm('确定要退出并清除信息吗？')) {
-                // 清除本地存储
-                localStorage.clear();
-                // 重置表单和用户信息
-                emailInput.value = '';
-                pwdInput.value = '';
-                userRole.textContent = '访客';
-                userId.textContent = '未知';
-                genderSelect.value = '不知道';
-                birthDate.value = '2019-12-31';
-                // 切换回登录表单
-                infoPanel.classList.add('hidden');
-                loginForm.classList.remove('hidden');
-                alert('已退出登录');
-            }
-        }
-        infoLogoutBtn.addEventListener('click', logout);
-        // 登录按钮点击（仅提示，无实际操作）
-        loginBtn.addEventListener('click', () => {
-            alert('请输入邮箱和密码后点击「确定」完成登录');
-        });
-
-        // 页面加载：恢复已保存的信息
-        window.onload = function() {
-            const savedEmail = localStorage.getItem('userEmail');
-            const savedPwd = localStorage.getItem('userPwd');
-            const savedGender = localStorage.getItem('userGender');
-            const savedBirth = localStorage.getItem('userBirth');
-            const savedId = localStorage.getItem('userId');
-
-            if (savedEmail && savedPwd) {
-                originalEmail = savedEmail;
-                originalPwd = savedPwd;
-                // 直接显示信息面板
-                const hideEmail = savedEmail.replace(/^(.{4})/, '••••');
-                emailInfo.textContent = hideEmail;
-                pwdInfo.textContent = '•'.repeat(savedPwd.length);
-                loginForm.classList.add('hidden');
-                infoPanel.classList.remove('hidden');
-                // 恢复性别和生日
-                if (savedGender) genderSelect.value = savedGender;
-                if (savedBirth) birthDate.value = savedBirth;
-                // 恢复用户信息
-                if (savedId) {
-                    userRole.textContent = '已登录用户';
-                    userId.textContent = savedId;
-                }
-            }
-        };
-
-        // 性别和生日修改后保存到本地
-        genderSelect.addEventListener('change', () => {
-            localStorage.setItem('userGender', genderSelect.value);
-        });
-        birthDate.addEventListener('change', () => {
-            localStorage.setItem('userBirth', birthDate.value);
-        });
-    </script>
-</body>
-</html>
-        </div>
-
-        <!-- 关于-->
+        <!-- 三条平行线菜单页面 移入所有分类按钮 + 关于内容 iOS26液态玻璃顶配 -->
         <div class="page-content" id="menu-page">
+            <div class="category-group">
+                <button class="category-btn glass glass-hover" data-page="home">主页</button>
+                <button class="category-btn glass glass-hover" data-page="all">全部</button>
+                <button class="category-btn glass glass-hover" data-page="2026">2026</button>
+                <button class="category-btn glass glass-hover" data-page="mirror">镜像</button>
+                <button class="category-btn glass glass-hover" data-page="tool">工具</button>
+                <button class="category-btn glass glass-hover" data-page="video">影视</button>
+                <button class="category-btn glass glass-hover" data-page="game">游戏</button>
+                <button class="category-btn glass glass-hover" data-page="tools">小工具</button>
+                <button class="category-btn glass glass-hover" data-page="about">关于</button>
+            </div>
+            <div id="about-content" style="margin-top:30px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.06);">
+                <h3>关于我们</h3>
+                <p>微信公众号：i科科技</p> 
+                <p>微信视频号：i科科技</p>
+                <p> B站：i科科技</p>
+                <p>抖音：i科科技</p>
+                <p>官网：https://minimini0119.github.io/ </p>
+            </div>
+        </div>
+        
+        <!-- 关于独立页面 -->
+        <div class="page-content" id="about-page">
             <h3>关于我们</h3>
             <p>微信公众号：i科科技</p> 
-           <p>微信视频号：i科科技</p>
+            <p>微信视频号：i科科技</p>
             <p> B站：i科科技</p>
             <p>抖音：i科科技</p>
             <p>官网：https://minimini0119.github.io/ </p>
@@ -929,7 +676,7 @@ strong{color:#e63946;font-weight:bold;}
     </div>
 
     <script>
-        // ===== 页面切换核心功能 =====
+        // ===== 页面切换核心功能 兼容所有按钮 =====
         const categoryBtns = document.querySelectorAll('.category-btn');
         const circleBtn = document.querySelector('.circle-btn');
         const lineBtn = document.querySelector('.line-btn');
@@ -942,11 +689,11 @@ strong{color:#e63946;font-weight:bold;}
             if (targetPage) targetPage.classList.add('active');
             
             const titleMap = {
-                'all': '全部', '2026': '2026', 'tool': '工具', 
+                'home':'主页','all': '全部', '2026': '2026','mirror':'镜像', 'tool': '工具', 
                 'video': '影视', 'game': '游戏', 'tools': '小工具', 
-                'circle': '账户', 'menu': '关于'
+                'circle': '账户', 'menu': '菜单','about':'关于'
             };
-            contentTitle.textContent = titleMap[pageId] || '全部';
+            contentTitle.textContent = titleMap[pageId] || '主页';
 
             categoryBtns.forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.querySelector(`.category-btn[data-page="${pageId}"]`);
@@ -956,7 +703,7 @@ strong{color:#e63946;font-weight:bold;}
         circleBtn.addEventListener('click', () => switchPage('circle'));
         lineBtn.addEventListener('click', () => switchPage('menu'));
 
-        // ===== 2026跨年倒计时+烟花特效 完整代码 =====
+        // ===== 2026跨年倒计时+烟花特效 完整代码 iOS26柔色顶配适配 =====
         const targetDate = new Date('2026-01-01T00:00:00').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
@@ -980,7 +727,7 @@ strong{color:#e63946;font-weight:bold;}
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-        // 烟花特效
+        // 烟花特效 iOS26柔色顶配适配
         const canvas = document.getElementById('fireworks');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -1002,7 +749,7 @@ strong{color:#e63946;font-weight:bold;}
         }
         function createFirework() {
             const x = Math.random() * canvas.width;const y = Math.random() * canvas.height / 2 + canvas.height / 4;
-            const colors = ['#ff66cc','#9933ff','#66ccff','#ffcc66','#ffffff','#cc66ff'];
+            const colors = ['#0071e3','#34c759','#ff9500','#ff2d55','#af52de'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             for(let i=0;i<100;i++) particles.push(new Particle(x, y, color));
         }
@@ -1022,7 +769,6 @@ strong{color:#e63946;font-weight:bold;}
             let ss=(s%60).toString().padStart(2,'0');
             return `${h}:${m}:${ss}`;
         }
-        // 切换正计时/倒计时标签
         const tabBtns = document.querySelectorAll('.timer-tab-btn');
         const timerContents = document.querySelectorAll('.timer-content');
         tabBtns.forEach(btn=>{
@@ -1033,7 +779,7 @@ strong{color:#e63946;font-weight:bold;}
                 document.getElementById(btn.getAttribute('data-type')).classList.add('show');
             })
         })
-        // 正计时(秒表)
+        // 正计时
         let sw_timer = null;
         let sw_sec = 0;
         const sw_num = document.getElementById('sw_num');
@@ -1079,6 +825,125 @@ strong{color:#e63946;font-weight:bold;}
             clearInterval(cd_timer);cd_h.value='00';cd_m.value='00';cd_s.value='00';
             cd_sec=0;cd_num.innerHTML='00:00:00';cd_pause.style.display='none';cd_start.style.display='block';
         }
+		
+		// ===== ✅ 账户页面完整JS功能 无缝接入 =====
+        const emailInput = document.getElementById('email-input');
+        const pwdInput = document.getElementById('pwd-input');
+        const eyeBtn = document.getElementById('eye-btn');
+        const confirmBtn = document.getElementById('confirm-btn');
+        const loginForm = document.getElementById('login-form');
+        const infoPanel = document.getElementById('info-panel');
+        const emailInfo = document.getElementById('email-info');
+        const pwdInfo = document.getElementById('pwd-info');
+        const genderSelect = document.getElementById('gender-select');
+        const birthDate = document.getElementById('birth-date');
+        const loginBtn = document.querySelector('.login-btn');
+        const infoLogoutBtn = document.getElementById('info-logout-btn');
+        const userRole = document.getElementById('user-role');
+        const userId = document.getElementById('user-id');
+
+        let originalEmail = '';
+        let originalPwd = '';
+        let isPwdShow = false;
+        eyeBtn.addEventListener('click', () => {
+            isPwdShow = !isPwdShow;
+            pwdInput.type = isPwdShow ? 'text' : 'password';
+            eyeBtn.textContent = isPwdShow ? '🙈' : '👁️';
+        });
+
+        emailInfo.addEventListener('click', () => {
+            if (emailInfo.textContent === originalEmail) {
+                const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
+                emailInfo.textContent = hideEmail;
+            } else {
+                emailInfo.textContent = originalEmail;
+            }
+        });
+
+        pwdInfo.addEventListener('click', () => {
+            if (pwdInfo.textContent === originalPwd) {
+                pwdInfo.textContent = '•'.repeat(originalPwd.length);
+            } else {
+                pwdInfo.textContent = originalPwd;
+            }
+        });
+
+        confirmBtn.addEventListener('click', () => {
+            originalEmail = emailInput.value.trim();
+            originalPwd = pwdInput.value.trim();
+
+            if (!originalEmail || !originalPwd) {
+                alert('请输入完整的邮箱和密码！');
+                return;
+            }
+
+            const randomId = 'U' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+            localStorage.setItem('userId', randomId);
+            userRole.textContent = '已登录用户';
+            userId.textContent = randomId;
+
+            const hideEmail = originalEmail.replace(/^(.{4})/, '••••');
+            emailInfo.textContent = hideEmail;
+            pwdInfo.textContent = '•'.repeat(originalPwd.length);
+
+            loginForm.classList.add('hidden');
+            infoPanel.classList.remove('hidden');
+
+            localStorage.setItem('userEmail', originalEmail);
+            localStorage.setItem('userPwd', originalPwd);
+            localStorage.setItem('userGender', genderSelect.value);
+            localStorage.setItem('userBirth', birthDate.value);
+        });
+
+        function logout() {
+            if (confirm('确定要退出并清除信息吗？')) {
+                localStorage.clear();
+                emailInput.value = '';
+                pwdInput.value = '';
+                userRole.textContent = '访客';
+                userId.textContent = '未知';
+                genderSelect.value = '不知道';
+                birthDate.value = '2019-12-31';
+                infoPanel.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                alert('已退出登录');
+            }
+        }
+        infoLogoutBtn.addEventListener('click', logout);
+        loginBtn.addEventListener('click', () => {
+            alert('请输入邮箱和密码后点击「确定」完成登录');
+        });
+
+        window.onload = function() {
+            const savedEmail = localStorage.getItem('userEmail');
+            const savedPwd = localStorage.getItem('userPwd');
+            const savedGender = localStorage.getItem('userGender');
+            const savedBirth = localStorage.getItem('userBirth');
+            const savedId = localStorage.getItem('userId');
+
+            if (savedEmail && savedPwd) {
+                originalEmail = savedEmail;
+                originalPwd = savedPwd;
+                const hideEmail = savedEmail.replace(/^(.{4})/, '••••');
+                emailInfo.textContent = hideEmail;
+                pwdInfo.textContent = '•'.repeat(savedPwd.length);
+                loginForm.classList.add('hidden');
+                infoPanel.classList.remove('hidden');
+                if (savedGender) genderSelect.value = savedGender;
+                if (savedBirth) birthDate.value = savedBirth;
+                if (savedId) {
+                    userRole.textContent = '已登录用户';
+                    userId.textContent = savedId;
+                }
+            }
+        };
+
+        genderSelect.addEventListener('change', () => {
+            localStorage.setItem('userGender', genderSelect.value);
+        });
+        birthDate.addEventListener('change', () => {
+            localStorage.setItem('userBirth', birthDate.value);
+        });
     </script>
 </body>
 </html>
