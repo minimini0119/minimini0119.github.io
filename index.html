@@ -257,7 +257,7 @@
             <button class="category-btn" data-page="tool">工具</button>
             <button class="category-btn" data-page="video">影视</button>
             <button class="category-btn" data-page="game">游戏</button>
-            <button class="category-btn" data-page="chat">计时</button>
+            <button class="category-btn" data-page="tools">小工具</button>
         </div>
         <div class="func-group">
             <div class="circle-btn" data-page="circle">品</div>
@@ -395,7 +395,7 @@ strong{color:#e63946;font-weight:bold;}
         </div>
 
         <!-- 计时页面 正计时+倒计时双功能 -->
-        <div class="page-content" id="chat-page">
+        <div class="page-content" id="tools-page">
             <h3 style="text-align:center;margin-bottom:15px;">计时工具 | 正计时/倒计时</h3>
             <div class="timer-wrap">
                 <div class="timer-tab">
@@ -466,7 +466,7 @@ strong{color:#e63946;font-weight:bold;}
             
             const titleMap = {
                 'all': '全部', '2026': '2026', 'tool': '工具', 
-                'video': '影视', 'game': '游戏', 'chat': '计时', 
+                'video': '影视', 'game': '游戏', 'tools': '小工具', 
                 'circle': '圆形按钮页', 'menu': '菜单按钮页'
             };
             contentTitle.textContent = titleMap[pageId] || '全部';
