@@ -486,6 +486,95 @@
         
         <!-- 全部页面 -->
         <div class="page-content" id="all-page">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Apple TV 3 (A1427) 越狱完整教程</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;word-break:break-all;}
+        body{font-family:Arial,sans-serif;line-height:1.6;padding:12px;background:#f5f5f5;}
+        h1{color:#333;border-bottom:2px solid #666;padding-bottom:10px;margin-bottom:15px;font-size:1.6rem;}
+        h2{color:#444;margin:15px 0 10px;border-left:4px solid #0275d8;padding-left:10px;font-size:1.3rem;}
+        h3{color:#555;margin:12px 0 8px;font-size:1.1rem;}
+        ul{padding-left:20px;margin:8px 0;}
+        li{margin:8px 0;font-size:0.95rem;}
+        .warning{color:#d9534f;font-weight:bold;}
+        .key{color:#0275d8;font-weight:bold;}
+        .box{border:1px solid #ccc;border-radius:8px;padding:18px;margin:12px auto;background:#fff;max-width:800px;overflow:hidden;}
+        a{color:#0275d8;word-break:break-word;}
+        p{font-size:0.95rem;line-height:1.7;}
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Apple TV 3 (A1427) 越狱核心路径</h1>
+        <p>核心方案：Arduino 做 checkm8-A5 PWN + Blackb0x 完成越狱<br>支持版本：仅 tvOS 7.x/8.4.x<br>越狱类型：7.2(8.4.x) 完美越狱 | 7.x 半完美（重启需重新越狱）</p>
+    </div>
+
+    <div class="box">
+        <h2>一、准备清单</h2>
+        <h3>硬件</h3>
+        <ul>
+            <li>Arduino Uno R3</li>
+            <li>USB Host Shield</li>
+            <li>micro-USB线、杜邦线</li>
+            <li>5V稳定电源</li>
+            <li>Mac电脑（必须）</li>
+        </ul>
+
+        <h3>软件</h3>
+        <ul>
+            <li>Blackb0x v10：<a href="https://github.com/X1uND/Apple-TV-2-3-Jailbreak/releases/download/10/Blackb0x.zip" target="_blank">下载链接</a></li>
+            <li>Arduino IDE</li>
+            <li>synackuk/checkm8-A5 固件（GitHub获取）</li>
+        </ul>
+
+        <h3>设备</h3>
+        <ul>
+            <li>Apple TV 3.1 (A1427)</li>
+            <li>原装遥控器</li>
+            <li>稳定Wi-Fi</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>二、Arduino 接线与固件刷写（关键步骤）</h2>
+        <h3>1. 接线操作</h3>
+        <ul>
+            <li>USB Host Shield 插 Uno，按标识对插</li>
+            <li>ATV 3.1 micro-USB 连接 USB Host Shield</li>
+            <li><span class="warning">Uno 接5V稳定电源，供电务必稳定</span></li>
+        </ul>
+
+        <h3>2. 刷写固件（Arduino IDE）</h3>
+        <ul>
+            <li>首选项→附加开发板网址：<span class="key">https://raw.githubusercontent.com/synackuk/checkm8‑a5/main/package_synackuk_checkm8‑a5_index.json</span></li>
+            <li>开发板管理器搜索「checkm8‑a5」完成安装</li>
+            <li>打开 示例→checkm8‑a5→checkm8_a5_pwn</li>
+            <li>选择开发板「Arduino Uno」与对应端口，上传固件</li>
+        </ul>
+
+        <h3>3. 执行 PWN</h3>
+        <ul>
+            <li>串口监视器设置115200波特率</li>
+            <li>操作流程：ATV断电→长按菜单+播放/暂停→插电→等待串口显示<span class="key">PWN successful</span></li>
+            <li><span class="warning">保持设备连线，切勿断开</span></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>三、Blackb0x 越狱步骤</h2>
+        <ul>
+            <li>1. 启动Blackb0x：Mac端右键「打开」绕安全拦截，点击「Jailbreak」</li>
+            <li>2. 进入DFU：按提示操作，遥控器长按<span class="key">菜单+播放/暂停</span>约7秒，Blackb0x识别后自动推进</li>
+            <li>3. 完成越狱：耐心等待安装，首次开机连Wi-Fi，勿断电，直至Kodi出现（约5-10分钟）</li>
+            <li>4. 收尾操作：重启后连接电视，检查Kodi与nitoTV，即可安装插件/系统优化</li>
+        </ul>
+    </div>
+</body>
+</html>
 【收藏】iOS 11-16越狱软件源大全！分版本适配，有趣插件一键获取
 
 <div class="glass" style="padding: 20px; border-radius: 16px; margin-bottom: 24px; background: rgba(255,255,255,0.7); backdrop-filter: blur(12px);">
